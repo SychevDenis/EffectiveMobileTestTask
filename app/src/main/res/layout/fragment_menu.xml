@@ -23,7 +23,7 @@
 
             <ImageButton
                 android:id="@+id/imageButtonSearch"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_search"
                 android:contentDescription="Поиск"
@@ -47,7 +47,7 @@
 
             <ImageButton
                 android:id="@+id/imageButtonFavourites"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_favourites"
                 android:contentDescription="Избранное"
@@ -71,7 +71,7 @@
 
             <ImageButton
                 android:id="@+id/imageButtonResponses"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_responses"
                 android:contentDescription="Отклики"
@@ -95,7 +95,7 @@
 
             <ImageButton
                 android:id="@+id/imageButtonMessages"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_message"
                 android:background="@color/black"
@@ -120,7 +120,7 @@
 
             <ImageButton
                 android:id="@+id/imageButtonProfile"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_profile"
                 android:background="@color/black"
