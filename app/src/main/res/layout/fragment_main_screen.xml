@@ -14,9 +14,9 @@
         android:id="@+id/search_panel"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
+        android:layout_marginTop="48dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="48dp">
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/editTextText"
@@ -24,22 +24,29 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_background_edittext"
+            android:background="@drawable/rounded_background"
             android:drawableStart="@drawable/ic_search"
-            android:textColor="@color/white"
+            android:drawablePadding="12dp"
             android:hint="Должность, ключевые слова"
             android:inputType="text"
-            android:textSize="14sp"
-            android:drawablePadding="12dp"
             android:paddingLeft="12dp"
-            android:textColorHint="#9F9F9F" />
+            android:textColor="@color/white"
+            android:textColorHint="#9F9F9F"
+            android:textSize="14sp" />
 
         <ImageButton
             android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/rounded_background_edittext"
+            android:background="@drawable/rounded_background"
             android:src="@drawable/ic_filters" />
 
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBlockRecommendations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal" />
 </LinearLayout>

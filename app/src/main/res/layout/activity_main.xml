@@ -7,22 +7,21 @@
     android:orientation="vertical"
     tools:context=".presentation.MainActivity">
 
-    <!-- встраиваю фрагмент намертво прям тут, ибо он будет на всех экранах-->
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
-        android:name="com.example.effectivemobiletesttask.presentation.fragments.FragmentMainScreen"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_container_menu"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:layout="@layout/fragment_main_screen" />
-
+    <!-- встраиваю фрагмент намертво прям тут, ибо он будет на всех экранах-->
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container_menu"
+        android:id="@+id/fragment_menu"
         android:name="com.example.effectivemobiletesttask.presentation.fragments.FragmentMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
