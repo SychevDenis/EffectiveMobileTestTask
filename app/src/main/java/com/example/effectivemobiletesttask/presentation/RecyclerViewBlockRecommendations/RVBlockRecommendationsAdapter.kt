@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Offers
 
-class RVBlockRecommendationsAdapter(private var items: List<Offers> = listOf(Offers(),Offers(),Offers())) :
+class RVBlockRecommendationsAdapter(private var items: List<Offers> = listOf()) :
     RecyclerView.Adapter<RVBlockRecommendationsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

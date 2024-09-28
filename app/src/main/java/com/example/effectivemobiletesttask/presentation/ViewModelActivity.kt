@@ -1,5 +1,7 @@
 package com.example.effectivemobiletesttask.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
 import com.example.effectivemobiletesttask.domain.use_cases.RequestJsonUseCase
@@ -14,7 +16,11 @@ import javax.inject.Inject
 class ViewModelActivity
 @Inject constructor(private val requestJsonUseCase: RequestJsonUseCase) :
     ViewModel() {
+    private val ldJson: MutableLiveData<ResponseJson> = MutableLiveData()
 
+    fun setLdJson(json:ResponseJson){
+        ldJson.value=json
+    }
     private fun requestJson(url: String): Flow<String> { //запросить json
         return flow {
             // emit("Loading...")

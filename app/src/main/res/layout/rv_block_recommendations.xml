@@ -16,8 +16,7 @@
         <ImageView
             android:id="@+id/image_rv_block_recommendations"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_ellipse_gray"/>
+            android:layout_height="wrap_content" />
     </FrameLayout>
 
     <LinearLayout
@@ -32,17 +31,13 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="13sp"
-            android:background="@color/lightGrey"
-            android:text="                     "
         />
 
         <TextView
             android:id="@+id/text2_rv_block_recommendations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/lightGrey"
-            android:text="                              "
-            android:textColor="@color/darkGreen"
+            android:textColor="@color/green"
             android:textSize="13sp" />
     </LinearLayout>
 </LinearLayout>

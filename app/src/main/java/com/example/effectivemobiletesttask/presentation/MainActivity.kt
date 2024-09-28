@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         ViewModelProvider(this, viewModelFactory)[ViewModelActivity::class.java]
     }
 
-
     init {
         DaggerComponentsActivity.create().inject(this)
     }
@@ -34,14 +33,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         createStatusBarColor()
-
         fragmentMainScreen = FragmentMainScreen()
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragmentMainScreen, "fragmentMainScreen").commit()
-
         lifecycleScope.launchWhenCreated {
             viewModelActivity.fetchData(url).collect { resultJson ->
-                resultJson?.let { fragmentMainScreen.updateAdapter(it.offers) }
+                resultJson?.let {
+                   // viewModelActivity.setLdJson(it)
+                    fragmentMainScreen.updateAdapter(it)
+                }
             }
         }
     }
