@@ -66,11 +66,9 @@ class RVVacanciesAdapter(
             holder.button.apply {
                 this.isEnabled=true
                 this.setBackgroundResource(R.drawable.green_button_selection)
-                this.text = SpannableString(holder.button.text)
             }
         }
         holder.tvDatePublication.text = item.publishedDate?.let { checkingData(it) }
-
     }
 
     override fun getItemCount(): Int {
@@ -88,11 +86,12 @@ class RVVacanciesAdapter(
         return items.take(3)
     }
 
-    private fun checkingNumberLooking(number: Int): String {//выбор склонения для просмотров
-        return if (number % 10 in listOf(2, 3, 4) && number > 14) {
-            "Сейчас просматривает $number человек"
-        } else {
+    private fun checkingNumberLooking(number: Int): String { //выбор склонения для просмотров
+        return if ((number % 10 == 2 || number % 10 == 3 || number % 10 == 4) &&
+            (number % 100 != 12 && number % 100 != 13 && number % 100 != 14)) {
             "Сейчас просматривает $number человека"
+        } else {
+            "Сейчас просматривает $number человек"
         }
     }
 

@@ -3,21 +3,20 @@ package com.example.effectivemobiletesttask.presentation
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.di.DaggerComponentsActivity
-import com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations.RVBlockRecommendationsAdapter
 import com.example.effectivemobiletesttask.presentation.fragments.FragmentMainScreen
+import com.example.effectivemobiletesttask.presentation.fragments.FragmentMoreVacancies
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenInterface {
     private val url =
         "https://drive.usercontent.google.com/u/0/uc?id=1z4TbeDkbfXkvgpoJprXbN85uCcD7f00r&export=download"
 
     private lateinit var fragmentMainScreen: FragmentMainScreen
+    private lateinit var fragmentMoreVacancies: FragmentMoreVacancies
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -34,13 +33,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         createStatusBarColor()
         fragmentMainScreen = FragmentMainScreen()
+        fragmentMoreVacancies = FragmentMoreVacancies()
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragmentMainScreen, "fragmentMainScreen").commit()
+
         lifecycleScope.launchWhenCreated {
             viewModelActivity.fetchData(url).collect { resultJson ->
                 resultJson?.let {
-                   // viewModelActivity.setLdJson(it)
-                    fragmentMainScreen.updateAdapter(it)
+                    viewModelActivity.setLdJson(it)
+                    fragmentMainScreen.updateDataFragmentMainScreen(it)
                 }
             }
         }
@@ -48,6 +49,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun createStatusBarColor() { //сделать status bar черным
         window.statusBarColor = Color.BLACK
+    }
+
+    override fun clickButton() {//вызывается из фрагмента
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, fragmentMoreVacancies, "fragmentMoreVacancies")
+            .addToBackStack("fragmentMoreVacancies")
+            .commit()
     }
 }
 
