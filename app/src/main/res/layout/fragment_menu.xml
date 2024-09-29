@@ -21,13 +21,13 @@
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivSearchFragmentMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_search"
                 android:contentDescription="Поиск"
                 android:clickable="false"
-                android:background="@color/black"
-                app:tint="#9F9F9F" />
+                android:background="@color/black" />
 
             <TextView
                 android:paddingTop="2dp"
@@ -48,13 +48,13 @@
             android:layout_weight="1"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivFavouritesFragmentMenu"
                 android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_favourites"
                 android:contentDescription="Избранное"
-                android:background="@color/black"
-                app:tint="#9F9F9F" />
+                android:background="@color/black" />
 
             <TextView
                 android:paddingTop="2dp"
@@ -75,13 +75,13 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/ivResponsesFragmentMenu"
                 android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_responses"
                 android:contentDescription="Отклики"
-                android:background="@color/black"
-                app:tint="#9F9F9F" />
+                android:background="@color/black" />
 
             <TextView
                 android:paddingTop="2dp"
@@ -102,13 +102,13 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/ivMessagesFragmentMenu"
                 android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_message"
                 android:background="@color/black"
-                android:contentDescription="Сообщение"
-                app:tint="#9F9F9F" />
+                android:contentDescription="Сообщение" />
 
             <TextView
                 android:paddingTop="2dp"
@@ -130,13 +130,13 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/ivProfileFragmentMenu"
                 android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_profile"
                 android:background="@color/black"
-                android:contentDescription="Профиль"
-                app:tint="#9F9F9F" />
+                android:contentDescription="Профиль" />
 
             <TextView
                 android:paddingTop="2dp"

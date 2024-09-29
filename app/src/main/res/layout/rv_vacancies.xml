@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:background="@null"
-                android:src="@drawable/ic_heart_gray" />
+                android:src="@drawable/ic_heart_gray_no_bable" />
         </FrameLayout>
     </LinearLayout>
 

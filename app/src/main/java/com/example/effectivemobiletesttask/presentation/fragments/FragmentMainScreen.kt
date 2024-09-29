@@ -86,6 +86,5 @@ class FragmentMainScreen : Fragment() {
     }
     interface FragmentMainScreenInterface{
         fun clickButtonMoreVacancies()
-        fun updateDataFromMainScreen()
     }
 }

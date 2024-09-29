@@ -38,6 +38,8 @@ android {
 
 dependencies {
     implementation ("com.google.dagger:dagger:2.51")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.1")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.1")
     kapt ("com.google.dagger:dagger-compiler:2.51")
 
     implementation ("androidx.fragment:fragment-ktx:1.8.3")

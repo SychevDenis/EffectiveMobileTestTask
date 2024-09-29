@@ -50,7 +50,7 @@ class RVMoreVacanciesAdapter(
 
         item.isFavorite?.let {
             if (it) holder.ivFavorite.setImageResource(R.drawable.ic_heart_blue)
-            else holder.ivFavorite.setImageResource(R.drawable.ic_heart_gray)
+            else holder.ivFavorite.setImageResource(R.drawable.ic_heart_gray_no_bable)
         }
 
         holder.tvTitle.text = item.title

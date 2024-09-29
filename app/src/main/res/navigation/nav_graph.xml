@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    tools:ignore="InvalidNavigation"
+    app:startDestination="@id/fragment_main_screen">
+
+    <fragment
+        android:id="@+id/fragment_main_screen"
+        android:name="com.example.effectivemobiletesttask.presentation.fragments.FragmentMainScreen"
+        android:label="fragmentMainScreen"
+        tools:layout="@layout/fragment_main_screen">
+        <action
+            android:id="@+id/action_fragment_main_screen_to_fragment_more_vacancies"
+            app:destination="@id/fragment_more_vacancies" />
+        <action
+            android:id="@+id/action_fragment_main_screen_to_fragment_favorites"
+            app:destination="@id/fragment_favorites" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_more_vacancies"
+        android:name="com.example.effectivemobiletesttask.presentation.fragments.FragmentMoreVacancies"
+        android:label="fragmentMoreVacancies"
+        tools:layout="@layout/fragment_more_vacancies">
+        <action
+            android:id="@+id/action_fragment_more_vacancies_to_fragment_main_screen"
+            app:destination="@id/fragment_main_screen" />
+        <action
+            android:id="@+id/action_fragment_more_vacancies_to_fragment_favorites"
+            app:destination="@id/fragment_favorites" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_favorites"
+        android:name="com.example.effectivemobiletesttask.presentation.fragments.FragmentFavorites"
+        android:label="fragmentFavorites"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_fragment_favorites_to_fragment_main_screen2"
+            app:destination="@id/fragment_main_screen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_menu"
+        android:name="com.example.effectivemobiletesttask.presentation.fragments.FragmentMenu"
+        android:label="fragmentMenu"
+        tools:layout="@layout/fragment_menu"/>
+
+</navigation>

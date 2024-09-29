@@ -24,43 +24,70 @@ class ExtActivityMain(savedInstanceState: Bundle?, activity: AppCompatActivity) 
             "bfXkvgpoJprXbN85uCcD7f00r&export=download"
 
     init {
-        initActivity(savedInstanceState,activity)
+        initActivity(savedInstanceState, activity)
+    }
+
+    private fun getBackStackNames(activity: AppCompatActivity) {
+        val fragmentManager = activity.supportFragmentManager
+        val backStackEntryCount = fragmentManager.backStackEntryCount
+        val names = mutableListOf<String?>()
+        for (i in 0 until backStackEntryCount) {
+            val backStackEntry = fragmentManager.getBackStackEntryAt(i)
+            names.add(backStackEntry.name)
+        }
+        println(names)
     }
 
     private fun initActivity(
-        savedInstanceState: Bundle?, activity:AppCompatActivity
+        savedInstanceState: Bundle?, activity: AppCompatActivity
     ) {//инициализация активности
-        if (savedInstanceState == null) {
-            addFragment(activity.getString(R.string.fragmentMainScreen), activity)
-        } else {
-            val nameLastBackFragment = getLastFragmentTag(activity.supportFragmentManager)
-            replaceFragment(nameLastBackFragment, activity)
-        }
+//        if (savedInstanceState == null) {
+//            addFragment(activity.getString(R.string.fragmentMainScreen), activity)
+//        } else {
+//            val nameLastBackFragment = getLastFragmentTag(activity.supportFragmentManager)
+//            replaceFragment(nameLastBackFragment, activity)
+//        }
         createStatusBarColor(activity)
     }
-    private fun checkPresenceFragment(activity:AppCompatActivity,fragmentName: String):Boolean{
+
+    private fun checkPresenceFragment(activity: AppCompatActivity, fragmentName: String): Boolean {
         //проверка, был ли ранее добавлен такой фрагмент
         return (activity.supportFragmentManager.findFragmentByTag(fragmentName) == null)
     }
-    fun addFragment(fragmentName: String, activity: AppCompatActivity) {
-        //добавить фрагмент в стек
-        val fragment = createFragmentByTag(fragmentName, activity)
-        if (checkPresenceFragment(activity,fragmentName)) {
+
+    fun removeFragment(activity: AppCompatActivity, fragmentName: String) {
+        //удалить фрагмент по имени
+        val fragment = activity.supportFragmentManager.findFragmentByTag(fragmentName)
+        if (fragment != null) {
             activity.supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment, fragmentName)
-                .apply {
-                    if (fragmentName != activity.getString(R.string.fragmentMainScreen))
-                        this.addToBackStack(fragmentName)
-                }
+                .remove(fragment)
                 .commit()
         }
     }
 
-    fun replaceFragment(fragmentName: String, activity: AppCompatActivity) {
+    fun addFragment(fragmentName: String, activity: AppCompatActivity) {
+        //добавить фрагмент в стек
+
         val fragment = createFragmentByTag(fragmentName, activity)
         activity.supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment, fragmentName)
+            .add(R.id.nav_host_fragment, fragment, fragmentName)
+            .apply {
+                if (fragmentName != activity.getString(R.string.fragmentMainScreen))
+                    this.addToBackStack(fragmentName)
+            }
             .commit()
+        println("add")
+        getBackStackNames(activity)
+    }
+
+    fun replaceFragment(fragmentName: String, activity: AppCompatActivity) {
+        val fragment = createFragmentByTag(fragmentName, activity)
+
+        activity.supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment, fragment, fragmentName)
+            .commit()
+        println("replace")
+        getBackStackNames(activity)
     }
 
     private fun createFragmentByTag(fragmentName: String, activity: AppCompatActivity): Fragment {
@@ -71,8 +98,10 @@ class ExtActivityMain(savedInstanceState: Bundle?, activity: AppCompatActivity) 
             activity.getString(R.string.fragmentFavorites) -> fragmentFavorites
             activity.getString(R.string.fragmentMenu) -> fragmentMenu
             activity.getString(R.string.empty) -> fragmentMainScreen
-            else -> throw IllegalArgumentException(activity.getString(R.string.unknown_format)
-                    + ": $fragmentName")
+            else -> throw IllegalArgumentException(
+                activity.getString(R.string.unknown_format)
+                        + ": $fragmentName"
+            )
         }
     }
 
@@ -94,8 +123,10 @@ class ExtActivityMain(savedInstanceState: Bundle?, activity: AppCompatActivity) 
         activity.window.statusBarColor = Color.BLACK
     }
 
-    fun getDataAndPars(lifecycleScope:LifecycleCoroutineScope,
-                       viewModelActivity:ViewModelActivity){// получение данных из сети и парсинг
+    fun getDataAndPars(
+        lifecycleScope: LifecycleCoroutineScope,
+        viewModelActivity: ViewModelActivity
+    ) {// получение данных из сети и парсинг
         lifecycleScope.launch {
             viewModelActivity.updateDataViewModelJson(url).collect { resultJson ->
                 resultJson?.let {

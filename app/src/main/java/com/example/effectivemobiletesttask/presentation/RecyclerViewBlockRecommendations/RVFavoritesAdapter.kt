@@ -46,7 +46,7 @@ class RVFavoritesAdapter(
 
         item.isFavorite?.let {
             if (it) holder.ivFavorite.setImageResource(R.drawable.ic_heart_blue)
-            else holder.ivFavorite.setImageResource(R.drawable.ic_heart_gray)
+            else holder.ivFavorite.setImageResource(R.drawable.ic_heart_gray_no_bable)
         }
 
         holder.tvTitle.text = item.title
@@ -72,13 +72,19 @@ class RVFavoritesAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateItems(newItems: List<Vacancies>) {
-        this.items = limitingElements(newItems)
+        this.items = searchFavoritesTrue(newItems)
         notifyDataSetChanged()
     }
 
-    private fun limitingElements(items: List<Vacancies>): // ограничение данных
-            List<Vacancies> {//передать только первые 3 элемента
-        return items.take(3)
+    private fun searchFavoritesTrue(vacancies: List<Vacancies>) :List<Vacancies> {
+        //оставляет только те элементы, где есть лайки
+        val listVacancies = mutableListOf<Vacancies>()
+        for (item in vacancies) {
+            if (item.isFavorite == true) {
+                listVacancies.add(item)
+            }
+        }
+        return listVacancies
     }
 
     private fun checkingNumberLooking(number: Int): String { //выбор склонения для просмотров
