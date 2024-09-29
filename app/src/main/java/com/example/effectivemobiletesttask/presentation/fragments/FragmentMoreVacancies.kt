@@ -1,6 +1,7 @@
 package com.example.effectivemobiletesttask.presentation.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,12 +11,14 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.presentation.MainActivity
 
 
 class FragmentMoreVacancies : Fragment() {
     private lateinit var editText: EditText
     private lateinit var compoundDrawables: Array<Drawable>
     private lateinit var iconDrawable: Drawable
+    private var activityInterface: FragmentMoreVacanciesInterface? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,23 +27,45 @@ class FragmentMoreVacancies : Fragment() {
         val view = inflater.inflate(R.layout.fragment_more_vacancies, container, false)
         editText = view.findViewById(R.id.editTextFragmentMoreVacancies)
         compoundDrawables = editText.compoundDrawables
-
         return view
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        editText.setOnTouchListener { view, motionEvent ->
+        //не знаю как сделать кликабельную иконку, по этому использовал вот такой
+        //обходной варивант через вычисление координат нажатия по х
+        editText.setOnTouchListener { _, motionEvent ->
             if (motionEvent.action == MotionEvent.ACTION_UP) {
                 iconDrawable = editText.compoundDrawables[0]
                 if (motionEvent.x < editText.compoundDrawablePadding
                     + iconDrawable.intrinsicWidth) {
-                    requireActivity().onBackPressed()
+                    activityInterface?.clickButtonBack()
                     return@setOnTouchListener true // Обработано, верните true
                 }
             }
             false // Необработано, верните false
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentMoreVacanciesInterface) { //реализуем интерфейс с активностью
+            activityInterface = context
+        }
+        else {
+            throw RuntimeException("$context activity does not implement the " +
+                    "FragmentMoreVacanciesInterface")
+        }
+    }
+    override fun onDetach() {
+        super.onDetach()
+        activityInterface = null //на всякий пожарный дабы утечек памяти не было
+    }
+    interface FragmentMoreVacanciesInterface{
+        fun clickButtonBack()
     }
 }

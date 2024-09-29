@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
-import com.example.effectivemobiletesttask.domain.pojo.Button
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
 import com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations.RVBlockRecommendationsAdapter
 import com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations.RVVacanciesAdapter
@@ -22,8 +21,8 @@ import com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecomme
 class FragmentMainScreen : Fragment() {
     private lateinit var rvBlockRecommendations: RecyclerView
     private lateinit var rvVacancies: RecyclerView
-    private lateinit var adapterBlockRecommendations: RVBlockRecommendationsAdapter
-    private lateinit var adapterVacancies: RVVacanciesAdapter
+    private val adapterBlockRecommendations by lazy { RVBlockRecommendationsAdapter() }
+    private val adapterVacancies by lazy { RVVacanciesAdapter() }
     private lateinit var buttonMoreVacancies: android.widget.Button
     private var activityInterface: FragmentMainScreenInterface? = null
 
@@ -33,20 +32,14 @@ class FragmentMainScreen : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main_screen, container, false)
-
+           // Устанавливаем менеджер компоновки для обоих RecyclerView
         rvBlockRecommendations = view.findViewById(R.id.rvBlockRecommendationsFragmentMainScreen)
-        rvVacancies = view.findViewById(R.id.rvVacanciesFragmentMainScreen)
         buttonMoreVacancies = view.findViewById(R.id.buttonMoreVacanciesFragmentMainScreen)
-
-        // Устанавливаем менеджер компоновки для обоих RecyclerView
+        rvVacancies = view.findViewById(R.id.rvVacanciesFragmentMainScreen)
         rvBlockRecommendations.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         rvVacancies.layoutManager =
             LinearLayoutManager(requireContext()) // Устанавливаем стандартный layoutManager для вертикальной прокрутки
-
-        adapterBlockRecommendations = RVBlockRecommendationsAdapter()
-        adapterVacancies = RVVacanciesAdapter()
-
         rvBlockRecommendations.adapter = adapterBlockRecommendations
         rvVacancies.adapter = adapterVacancies
         return view
@@ -61,13 +54,14 @@ class FragmentMainScreen : Fragment() {
                     "FragmentMainScreenInterface ")
         }
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        buttonMoreVacancies.setOnClickListener{
-            activityInterface?.clickButton()
+    override fun onResume() {
+        super.onResume()
+        buttonMoreVacancies.setOnClickListener{//подключаем слушатель кнопки
+            activityInterface?.clickButtonMoreVacancies()
         }
+        activityInterface?.updateData()//запрашиваем данные для фрагмента из сети
     }
+
     override fun onDetach() {
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
@@ -87,6 +81,7 @@ class FragmentMainScreen : Fragment() {
         } else "Еще $number вакансий"
     }
     interface FragmentMainScreenInterface{
-        fun clickButton()
+        fun clickButtonMoreVacancies()
+        fun updateData()
     }
 }
