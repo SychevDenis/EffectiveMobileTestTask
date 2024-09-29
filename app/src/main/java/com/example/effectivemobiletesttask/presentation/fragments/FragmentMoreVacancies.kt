@@ -9,14 +9,23 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
 import com.example.effectivemobiletesttask.presentation.MainActivity
+import com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations.RVBlockRecommendationsAdapter
+import com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations.RVMoreVacancies
 
 
 class FragmentMoreVacancies : Fragment() {
     private lateinit var editText: EditText
+    private lateinit var tvNumberVacancies: TextView
     private lateinit var compoundDrawables: Array<Drawable>
+    private val adapterMoreVacancies by lazy { RVMoreVacancies() }
+    private lateinit var rvMoreVacancies: RecyclerView
     private lateinit var iconDrawable: Drawable
     private var activityInterface: FragmentMoreVacanciesInterface? = null
 
@@ -25,8 +34,13 @@ class FragmentMoreVacancies : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_more_vacancies, container, false)
+        rvMoreVacancies = view.findViewById(R.id.rvVacanciesFragmentMoreVacancies)
+        rvMoreVacancies.layoutManager =
+            LinearLayoutManager(requireContext()) // Устанавливаем стандартный layoutManager для вертикальной прокрутки
         editText = view.findViewById(R.id.editTextFragmentMoreVacancies)
+        tvNumberVacancies = view.findViewById(R.id.tvNumberVacanciesFragmentMoreVacancies)
         compoundDrawables = editText.compoundDrawables
+        rvMoreVacancies.adapter = adapterMoreVacancies
         return view
     }
 
@@ -46,11 +60,9 @@ class FragmentMoreVacancies : Fragment() {
             }
             false // Необработано, верните false
         }
+
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is FragmentMoreVacanciesInterface) { //реализуем интерфейс с активностью
@@ -61,11 +73,30 @@ class FragmentMoreVacancies : Fragment() {
                     "FragmentMoreVacanciesInterface")
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        activityInterface?.updateDataFromMoreVacancies()
+    }
     override fun onDetach() {
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
+
+    fun updateDataFragmentMainScreen(response: ResponseJson) { //обновить данные
+        adapterMoreVacancies.updateItems(response.vacancies)
+        tvNumberVacancies.text = setTextMoreVacancies(response.vacancies.size)
+    }
+    private fun setTextMoreVacancies(number: Int): String {//выбор склонения для
+        // вывода числа вакансий
+        return if (number > 0 && number % 10 == 1 && number != 11)
+            "$number вакансия"
+        else if (number % 10 in listOf(2, 3, 4) && number != 12 && number != 13 && number != 14) {
+            "$number вакансии"
+        } else "$number вакансий"
+    }
     interface FragmentMoreVacanciesInterface{
         fun clickButtonBack()
+        fun updateDataFromMoreVacancies()
     }
 }

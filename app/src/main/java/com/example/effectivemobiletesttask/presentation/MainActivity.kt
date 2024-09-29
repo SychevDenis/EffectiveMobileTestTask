@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.effectivemobiletesttask.R
@@ -42,7 +43,8 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
         }
 
     }
-    override fun updateData(){
+
+    override fun updateDataFromMainScreen() {
         lifecycleScope.launchWhenCreated {
             viewModelActivity.fetchData(url).collect { resultJson ->
                 resultJson?.let {
@@ -52,12 +54,13 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
             }
         }
     }
+
     override fun onResume() {
         super.onResume()
         getBackStackNames()
     }
 
-    private fun getLastFragmentTag(): String { //получение последнего имени
+    private fun getLastFragmentTag(): String { //получение имени последнего фрагмента
         val backStackEntryCount = supportFragmentManager.backStackEntryCount
         if (backStackEntryCount > 0) {
             val lastNameFragment =
@@ -103,7 +106,7 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
         }
     }
 
-    fun getBackStackNames() {
+    private fun getBackStackNames() {
         val fragmentManager = supportFragmentManager
         val backStackEntryCount = fragmentManager.backStackEntryCount
         val names = mutableListOf<String?>()
@@ -119,13 +122,24 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
     }
 
     override fun clickButtonBack() {
-        onSupportNavigateUp()
+        getBackStackNames()
+    }
+
+    override fun updateDataFromMoreVacancies() {
+        lifecycleScope.launchWhenCreated {
+            viewModelActivity.fetchData(url).collect { resultJson ->
+                resultJson?.let {
+                    //  viewModelActivity.setLdJson(it)
+                    fragmentMoreVacancies.updateDataFragmentMainScreen(it)
+                }
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        supportFragmentManager.popBackStack()
+        onBackPressed()
         return true
     }
-
+    //исправить баг 1:перейти на второй экран, перевернуть экран, стрелочка назад
 }
 

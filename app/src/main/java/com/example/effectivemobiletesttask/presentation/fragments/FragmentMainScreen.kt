@@ -59,7 +59,7 @@ class FragmentMainScreen : Fragment() {
         buttonMoreVacancies.setOnClickListener{//подключаем слушатель кнопки
             activityInterface?.clickButtonMoreVacancies()
         }
-        activityInterface?.updateData()//запрашиваем данные для фрагмента из сети
+        activityInterface?.updateDataFromMainScreen()//запрашиваем данные для фрагмента из сети
     }
 
     override fun onDetach() {
@@ -72,8 +72,8 @@ class FragmentMainScreen : Fragment() {
         buttonMoreVacancies.text = setTextButtonMoreVacancies(response.vacancies.size)
     }
 
-    private fun setTextButtonMoreVacancies(number: Int): String {
-        //выбор склонения для текста кнопки
+    private fun setTextButtonMoreVacancies(number: Int): String {//выбор склонения для
+        // вывода числа вакансий
         return if (number > 0 && number % 10 == 1 && number != 11)
             "Еще $number вакансия"
         else if (number % 10 in listOf(2, 3, 4) && number != 12 && number != 13 && number != 14) {
@@ -82,6 +82,6 @@ class FragmentMainScreen : Fragment() {
     }
     interface FragmentMainScreenInterface{
         fun clickButtonMoreVacancies()
-        fun updateData()
+        fun updateDataFromMainScreen()
     }
 }

@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 
-class RVVacanciesAdapter(
+class RVMoreVacancies(
     private var items: List<Vacancies> = listOf(
         Vacancies(),
         Vacancies(),
         Vacancies()
     )
 ) :
-    RecyclerView.Adapter<RVVacanciesAdapter.ViewHolder>() {
+    RecyclerView.Adapter<RVMoreVacancies.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvPeopleViewing: TextView = itemView.findViewById(R.id.tv_people_viewing_rv_vacancies)
@@ -77,13 +77,8 @@ class RVVacanciesAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateItems(newItems: List<Vacancies>) {
-        this.items = limitingElements(newItems)
+        this.items = newItems
         notifyDataSetChanged()
-    }
-
-    private fun limitingElements(items: List<Vacancies>): // ограничение данных
-            List<Vacancies> {//передать только первые 3 элемента
-        return items.take(3)
     }
 
     private fun checkingNumberLooking(number: Int): String { //выбор склонения для просмотров

@@ -49,6 +49,12 @@ class RVBlockRecommendationsAdapter(private var items: List<Offers> = listOf()) 
         holder.textView1.apply {
             this.text = item.title?.trim()//удалить лишние пробелы вначале
             this.background = null
+            if (item.button?.text == null) {
+                this.maxLines = 3
+            } else {
+                this.maxLines = 2
+            }
+
         }
         holder.textView2.apply {
             this.text = item.button?.text
