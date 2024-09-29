@@ -8,12 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
+import com.example.effectivemobiletesttask.presentation.ViewModelActivity
+import javax.inject.Inject
 
 class FragmentMainScreen : Fragment() {
+    private val viewModelActivity: ViewModelActivity by activityViewModels()
     private lateinit var rvBlockRecommendations: RecyclerView
     private lateinit var rvVacancies: RecyclerView
     private val adapterBlockRecommendations by lazy { RVBlockRecommendationsAdapter() }
@@ -54,19 +58,24 @@ class FragmentMainScreen : Fragment() {
         buttonMoreVacancies.setOnClickListener{//подключаем слушатель кнопки
             activityInterface?.clickButtonMoreVacancies()
         }
-        activityInterface?.updateDataFromMainScreen()//запрашиваем данные для фрагмента из сети
+        observeViewModel()
+       // activityInterface?.updateDataFromMainScreen()//запрашиваем данные для фрагмента из сети
     }
 
     override fun onDetach() {
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
-    fun updateDataFragmentMainScreen(response: ResponseJson) { //обновить данные
+    private fun updateDataFragmentMainScreen(response: ResponseJson) { //обновить данные
         adapterBlockRecommendations.updateItems(response.offers)
         adapterVacancies.updateItems(response.vacancies)
         buttonMoreVacancies.text = setTextButtonMoreVacancies(response.vacancies.size)
     }
-
+    private fun observeViewModel(){//подписываемся на обновления
+        viewModelActivity.getLdJson().observe(this){
+            updateDataFragmentMainScreen(it)
+        }
+    }
     private fun setTextButtonMoreVacancies(number: Int): String {//выбор склонения для
         // вывода числа вакансий
         return if (number > 0 && number % 10 == 1 && number != 11)

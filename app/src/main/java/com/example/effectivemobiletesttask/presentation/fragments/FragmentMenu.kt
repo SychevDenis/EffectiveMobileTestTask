@@ -1,6 +1,5 @@
 package com.example.effectivemobiletesttask.presentation.fragments
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.effectivemobiletesttask.R
+import com.example.effectivemobiletesttask.presentation.ViewModelActivity
 
 class FragmentMenu : Fragment() {
+    private val viewModelActivity: ViewModelActivity by activityViewModels()
     private lateinit var llSearchFragmentMenu: LinearLayout
     private lateinit var llFavouritesFragmentMenu: LinearLayout
     private lateinit var llResponsesFragmentMenu: LinearLayout
@@ -35,6 +37,11 @@ class FragmentMenu : Fragment() {
     override fun onResume() {
         super.onResume()
         connectListeners()
+    }
+    private fun observeViewModel(){//подписываемся на обновления
+//        viewModelActivity.getLdJson().observe(this){
+//            updateDataMenu(it)
+//        }
     }
     private fun connectListeners(){//подключаем слушатели
         llSearchFragmentMenu.setOnClickListener{

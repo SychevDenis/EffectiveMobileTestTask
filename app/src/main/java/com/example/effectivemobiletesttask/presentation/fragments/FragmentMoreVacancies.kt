@@ -12,12 +12,15 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
+import com.example.effectivemobiletesttask.presentation.ViewModelActivity
 
 class FragmentMoreVacancies : Fragment() {
+    private val viewModelActivity: ViewModelActivity by activityViewModels()
     private lateinit var editText: EditText
     private lateinit var tvNumberVacancies: TextView
     private lateinit var compoundDrawables: Array<Drawable>
@@ -55,7 +58,7 @@ class FragmentMoreVacancies : Fragment() {
                     return@setOnTouchListener true // Обработано, верните true
                 }
             }
-            false // Необработано, верните false
+            false
         }
 
     }
@@ -70,17 +73,21 @@ class FragmentMoreVacancies : Fragment() {
                     "FragmentMoreVacanciesInterface")
         }
     }
-
+    private fun observeViewModel(){//подписываемся на обновления
+        viewModelActivity.getLdJson().observe(this){
+            updateDataFragmentMoreVacancies(it)
+        }
+    }
     override fun onResume() {
         super.onResume()
-        activityInterface?.updateDataFromMoreVacancies()
+        observeViewModel() //подписаться
     }
     override fun onDetach() {
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
 
-    fun updateDataFragmentMainScreen(response: ResponseJson) { //обновить данные
+    private fun updateDataFragmentMoreVacancies(response: ResponseJson) { //обновить данные
         adapterMoreVacancies.updateItems(response.vacancies)
         tvNumberVacancies.text = setTextMoreVacancies(response.vacancies.size)
     }

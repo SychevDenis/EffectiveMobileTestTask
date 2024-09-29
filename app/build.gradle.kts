@@ -40,7 +40,7 @@ dependencies {
     implementation ("com.google.dagger:dagger:2.51")
     kapt ("com.google.dagger:dagger-compiler:2.51")
 
-
+    implementation ("androidx.fragment:fragment-ktx:1.8.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3") // Coroutines
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("androidx.activity:activity-ktx:1.9.2")

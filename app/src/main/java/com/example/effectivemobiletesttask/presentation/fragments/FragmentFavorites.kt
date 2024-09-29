@@ -8,12 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
+import com.example.effectivemobiletesttask.presentation.ViewModelActivity
 
 class FragmentFavorites : Fragment() {
+    private val viewModelActivity: ViewModelActivity by activityViewModels()
     private lateinit var rvFavorites: RecyclerView
     private lateinit var tvNumberVacancies: TextView
     private val adapterFavorites by lazy { RVFavoritesAdapter() }
@@ -40,16 +43,21 @@ class FragmentFavorites : Fragment() {
                     "FragmentFavoritesInterface")
         }
     }
-
+    private fun observeViewModel(){//подписываемся на обновления
+        viewModelActivity.getLdJson().observe(this){
+            updateDataFragmentFavorites(it)
+        }
+    }
     override fun onResume() {
         super.onResume()
-        activityInterface?.updateDataFromFavorites()
+        observeViewModel() //подписаться и обновить данные
+           //activityInterface?.updateDataFromFavorites()
     }
     override fun onDetach() {
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
-    fun updateDataFragmentMainScreen(response: ResponseJson) { //обновить данные
+    private fun updateDataFragmentFavorites(response: ResponseJson) { //обновить данные
         adapterFavorites.updateItems(response.vacancies)
     }
     private fun setTextFavorites(number: Int): String {//выбор склонения для
