@@ -1,7 +1,6 @@
-package com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations
+
 
 import android.annotation.SuppressLint
-import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 
-class RVMoreVacancies(
+class RVMoreVacanciesAdapter(
     private var items: List<Vacancies> = listOf(
         Vacancies(),
         Vacancies(),
         Vacancies()
     )
 ) :
-    RecyclerView.Adapter<RVMoreVacancies.ViewHolder>() {
+    RecyclerView.Adapter<RVMoreVacanciesAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvPeopleViewing: TextView = itemView.findViewById(R.id.tv_people_viewing_rv_vacancies)

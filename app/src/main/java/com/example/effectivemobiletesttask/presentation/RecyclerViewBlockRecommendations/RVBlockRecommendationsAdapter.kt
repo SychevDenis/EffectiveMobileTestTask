@@ -1,4 +1,4 @@
-package com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations
+
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

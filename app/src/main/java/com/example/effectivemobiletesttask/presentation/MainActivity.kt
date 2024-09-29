@@ -9,17 +9,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.di.DaggerComponentsActivity
+import com.example.effectivemobiletesttask.presentation.fragments.FragmentFavorites
 import com.example.effectivemobiletesttask.presentation.fragments.FragmentMainScreen
+import com.example.effectivemobiletesttask.presentation.fragments.FragmentMenu
 import com.example.effectivemobiletesttask.presentation.fragments.FragmentMoreVacancies
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenInterface,
-    FragmentMoreVacancies.FragmentMoreVacanciesInterface {
+    FragmentMoreVacancies.FragmentMoreVacanciesInterface,
+    FragmentFavorites.FragmentFavoritesInterface, FragmentMenu.FragmentMenuInterface {
     private val url =
         "https://drive.usercontent.google.com/u/0/uc?id=1z4TbeDkbfXkvgpoJprXbN85uCcD7f00r&export=download"
-
     private val fragmentMainScreen by lazy { FragmentMainScreen() }
     private val fragmentMoreVacancies by lazy { FragmentMoreVacancies() }
+    private val fragmentFavorites by lazy { FragmentFavorites() }
+    private val fragmentMenu by lazy { FragmentMenu() }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -42,17 +46,6 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
             replaceFragment(nameLastBackFragment)
         }
 
-    }
-
-    override fun updateDataFromMainScreen() {
-        lifecycleScope.launchWhenCreated {
-            viewModelActivity.fetchData(url).collect { resultJson ->
-                resultJson?.let {
-                    //  viewModelActivity.setLdJson(it)
-                    fragmentMainScreen.updateDataFragmentMainScreen(it)
-                }
-            }
-        }
     }
 
     override fun onResume() {
@@ -90,7 +83,7 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, fragment, fragmentName)
             .apply {
-                if (fragmentName != "fragmentMainScreen")
+                if (fragmentName != getString(R.string.fragmentMainScreen))
                     this.addToBackStack(fragmentName)
             }
             .commit()
@@ -98,11 +91,13 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
 
     private fun createFragmentByTag(fragmentName: String): Fragment {
         // получить фрагмент по тегу
-        when (fragmentName) {
-            "fragmentMainScreen" -> return fragmentMainScreen
-            "fragmentMoreVacancies" -> return fragmentMoreVacancies
-            "empty" -> return fragmentMainScreen
-            else -> throw IllegalArgumentException("Неизвестный фрагмент: $fragmentName")
+        return when (fragmentName) {
+            getString(R.string.fragmentMainScreen) -> fragmentMainScreen
+            getString(R.string.fragmentMoreVacancies) -> fragmentMoreVacancies
+            getString(R.string.fragmentFavorites) -> fragmentFavorites
+            getString(R.string.fragmentMenu) -> fragmentMenu
+            getString(R.string.empty) -> fragmentMainScreen
+            else -> throw IllegalArgumentException(getString(R.string.unknown_format) + ": $fragmentName")
         }
     }
 
@@ -121,11 +116,11 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
         addFragment("fragmentMoreVacancies")
     }
 
-    override fun clickButtonBack() {
-        getBackStackNames()
+    override fun clickButtonBack() { //вызывается из фрагмента MoreVacancies
+       onBackPressed()
     }
 
-    override fun updateDataFromMoreVacancies() {
+    override fun updateDataFromMoreVacancies() {//вызывается из фрагмента MoreVacancies
         lifecycleScope.launchWhenCreated {
             viewModelActivity.fetchData(url).collect { resultJson ->
                 resultJson?.let {
@@ -136,10 +131,33 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
+    override fun updateDataFromMainScreen() {//вызывается из фрагмента MainScreen
+        lifecycleScope.launchWhenCreated {
+            viewModelActivity.fetchData(url).collect { resultJson ->
+                resultJson?.let {
+                    //  viewModelActivity.setLdJson(it)
+                    fragmentMainScreen.updateDataFragmentMainScreen(it)
+                }
+            }
+        }
     }
+
+    override fun updateDataFromFavorites() {//вызывается из фрагмента Favorites
+        lifecycleScope.launchWhenCreated {
+            viewModelActivity.fetchData(url).collect { resultJson ->
+                resultJson?.let {
+                    //  viewModelActivity.setLdJson(it)
+                    fragmentFavorites.updateDataFragmentMainScreen(it)
+                }
+            }
+        }
+    }
+
+    override fun clickButtonMenu(fragmentName: String) {//вызывается из фрагмента  Favorites
+        addFragment(fragmentName)
+    }
+
     //исправить баг 1:перейти на второй экран, перевернуть экран, стрелочка назад
+    //исправить вылет при нажатии 2 раза на избранное
 }
 

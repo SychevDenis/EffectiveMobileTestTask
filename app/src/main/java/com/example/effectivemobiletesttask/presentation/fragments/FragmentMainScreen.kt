@@ -1,5 +1,7 @@
 package com.example.effectivemobiletesttask.presentation.fragments
 
+import RVBlockRecommendationsAdapter
+import RVVacanciesAdapter
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,14 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
-import com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations.RVBlockRecommendationsAdapter
-import com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations.RVVacanciesAdapter
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentMainScreen.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FragmentMainScreen : Fragment() {
     private lateinit var rvBlockRecommendations: RecyclerView
     private lateinit var rvVacancies: RecyclerView

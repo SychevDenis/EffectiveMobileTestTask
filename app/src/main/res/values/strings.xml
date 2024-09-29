@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">EffectiveMobileTestTask</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragmentMainScreen">fragmentMainScreen</string>
+    <string name="fragmentMoreVacancies">fragmentMoreVacancies</string>
+    <string name="fragmentFavorites">fragmentFavorites</string>
+    <string name="fragmentMenu">fragmentMenu</string>
+    <string name="unknown_format">Неизвестный фрагмент</string>
+    <string name="empty">empty</string>
 </resources>

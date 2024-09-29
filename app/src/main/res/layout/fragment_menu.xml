@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.fragments.FragmentMenu">
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:id="@+id/fragmentMenu"
         android:layout_width="match_parent"
@@ -15,22 +14,22 @@
         android:paddingBottom="12dp"
         android:paddingTop="12dp">
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/llSearchFragmentMenu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center">
-
-            <ImageButton
-                android:id="@+id/imageButtonSearch"
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_search"
                 android:contentDescription="Поиск"
+                android:clickable="false"
                 android:background="@color/black"
                 app:tint="#9F9F9F" />
-
             <TextView
+                android:clickable="false"
                 android:id="@+id/textViewSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,23 +38,22 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/llFavouritesFragmentMenu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center">
-
-            <ImageButton
-                android:id="@+id/imageButtonFavourites"
+            <ImageView
+                android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_favourites"
                 android:contentDescription="Избранное"
                 android:background="@color/black"
                 app:tint="#9F9F9F" />
-
             <TextView
-                android:id="@+id/textViewFavourites"
+                android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Избранное"
@@ -63,14 +61,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/llResponsesFragmentMenu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center">
 
-            <ImageButton
-                android:id="@+id/imageButtonResponses"
+            <ImageView
+                android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_responses"
@@ -79,7 +78,7 @@
                 app:tint="#9F9F9F" />
 
             <TextView
-                android:id="@+id/textViewResponses"
+                android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Отклики"
@@ -87,14 +86,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/llMessagesFragmentMenu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center">
 
-            <ImageButton
-                android:id="@+id/imageButtonMessages"
+            <ImageView
+                android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_message"
@@ -103,7 +103,7 @@
                 app:tint="#9F9F9F" />
 
             <TextView
-                android:id="@+id/textViewMessages"
+                android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#FFFFFF"
@@ -112,14 +112,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/llProfileFragmentMenu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
             android:gravity="center">
 
-            <ImageButton
-                android:id="@+id/imageButtonProfile"
+            <ImageView
+                android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_profile"
@@ -128,7 +129,7 @@
                 app:tint="#9F9F9F" />
 
             <TextView
-                android:id="@+id/textViewProfile"
+                android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Профиль"

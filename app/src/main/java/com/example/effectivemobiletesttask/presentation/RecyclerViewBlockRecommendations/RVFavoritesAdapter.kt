@@ -1,7 +1,4 @@
-
-
 import android.annotation.SuppressLint
-import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 
-class RVVacanciesAdapter(
+class RVFavoritesAdapter(
     private var items: List<Vacancies> = listOf(
         Vacancies(),
         Vacancies(),
         Vacancies()
     )
-) :
-    RecyclerView.Adapter<RVVacanciesAdapter.ViewHolder>() {
-
+) : RecyclerView.Adapter<RVFavoritesAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvPeopleViewing: TextView = itemView.findViewById(R.id.tv_people_viewing_rv_vacancies)
         val ivFavorite: ImageView = itemView.findViewById(R.id.iv_favorite_rv_vacancies)
@@ -64,7 +59,7 @@ class RVVacanciesAdapter(
             holder.ivExperience.setImageResource(R.drawable.ic_work_experience)
             holder.tvExperience.text = it
             holder.button.apply {
-                this.isEnabled=true
+                this.isEnabled = true
                 this.setBackgroundResource(R.drawable.green_button_selection)
             }
         }
@@ -88,7 +83,8 @@ class RVVacanciesAdapter(
 
     private fun checkingNumberLooking(number: Int): String { //выбор склонения для просмотров
         return if ((number % 10 == 2 || number % 10 == 3 || number % 10 == 4) &&
-            (number % 100 != 12 && number % 100 != 13 && number % 100 != 14)) {
+            (number % 100 != 12 && number % 100 != 13 && number % 100 != 14)
+        ) {
             "Сейчас просматривает $number человека"
         } else {
             "Сейчас просматривает $number человек"

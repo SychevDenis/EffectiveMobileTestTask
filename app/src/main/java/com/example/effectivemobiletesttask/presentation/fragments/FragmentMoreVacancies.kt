@@ -1,5 +1,6 @@
 package com.example.effectivemobiletesttask.presentation.fragments
 
+import RVMoreVacanciesAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -15,16 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
-import com.example.effectivemobiletesttask.presentation.MainActivity
-import com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations.RVBlockRecommendationsAdapter
-import com.example.effectivemobiletesttask.presentation.RecyclerViewBlockRecommendations.RVMoreVacancies
-
 
 class FragmentMoreVacancies : Fragment() {
     private lateinit var editText: EditText
     private lateinit var tvNumberVacancies: TextView
     private lateinit var compoundDrawables: Array<Drawable>
-    private val adapterMoreVacancies by lazy { RVMoreVacancies() }
+    private val adapterMoreVacancies by lazy { RVMoreVacanciesAdapter() }
     private lateinit var rvMoreVacancies: RecyclerView
     private lateinit var iconDrawable: Drawable
     private var activityInterface: FragmentMoreVacanciesInterface? = null
