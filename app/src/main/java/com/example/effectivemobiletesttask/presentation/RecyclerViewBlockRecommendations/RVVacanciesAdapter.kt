@@ -1,10 +1,9 @@
-
-
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -12,17 +11,17 @@ import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 
 class RVVacanciesAdapter(
-    private var items: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies> = listOf(
-        com.example.effectivemobiletesttask.domain.pojo.Vacancies(),
-        com.example.effectivemobiletesttask.domain.pojo.Vacancies(),
-        com.example.effectivemobiletesttask.domain.pojo.Vacancies()
+    private var items: List<Vacancies> = listOf(
+        Vacancies(),
+        Vacancies(),
+        Vacancies()
     )
 ) :
     RecyclerView.Adapter<RVVacanciesAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvPeopleViewing: TextView = itemView.findViewById(R.id.tv_people_viewing_rv_vacancies)
-        val ivFavorite: ImageView = itemView.findViewById(R.id.iv_favorite_rv_vacancies)
+        val ibFavorite: ImageButton = itemView.findViewById(R.id.iv_favorite_rv_vacancies)
         val tvTitle: TextView = itemView.findViewById(R.id.tv_title_rv_vacancies)
         val tvCity: TextView = itemView.findViewById(R.id.tv_city_rv_vacancies)
         val ivCompany: ImageView = itemView.findViewById(R.id.iv_company_rv_vacancies)
@@ -49,8 +48,8 @@ class RVVacanciesAdapter(
         }
 
         item.isFavorite?.let {
-            if (it) holder.ivFavorite.setImageResource(R.drawable.ic_heart_blue)
-            else holder.ivFavorite.setImageResource(R.drawable.ic_heart_gray_no_bable)
+            if (it) holder.ibFavorite.setImageResource(R.drawable.ic_heart_blue)
+            else holder.ibFavorite.setImageResource(R.drawable.ic_heart_gray_no_bable)
         }
 
         holder.tvTitle.text = item.title
@@ -63,7 +62,7 @@ class RVVacanciesAdapter(
             holder.ivExperience.setImageResource(R.drawable.ic_work_experience)
             holder.tvExperience.text = it
             holder.button.apply {
-                this.isEnabled=true
+                this.isEnabled = true
                 this.setBackgroundResource(R.drawable.green_button_selection)
             }
         }
@@ -75,19 +74,17 @@ class RVVacanciesAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(newItems: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies>) {
-        this.items = limitingElements(newItems)
+    fun updateItems(newItems: List<Vacancies>) {
+        this.items = newItems
         notifyDataSetChanged()
     }
 
-    private fun limitingElements(items: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies>): // ограничение данных
-            List<com.example.effectivemobiletesttask.domain.pojo.Vacancies> {//передать только первые 3 элемента
-        return items.take(3)
-    }
+
 
     private fun checkingNumberLooking(number: Int): String { //выбор склонения для просмотров
         return if ((number % 10 == 2 || number % 10 == 3 || number % 10 == 4) &&
-            (number % 100 != 12 && number % 100 != 13 && number % 100 != 14)) {
+            (number % 100 != 12 && number % 100 != 13 && number % 100 != 14)
+        ) {
             "Сейчас просматривает $number человека"
         } else {
             "Сейчас просматривает $number человек"

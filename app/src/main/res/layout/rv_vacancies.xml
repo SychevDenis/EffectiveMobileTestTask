@@ -25,7 +25,7 @@
                 android:textColor="@color/green"
                 android:textSize="14sp" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/iv_favorite_rv_vacancies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

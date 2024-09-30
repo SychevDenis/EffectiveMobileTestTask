@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
+import com.example.effectivemobiletesttask.presentation.FilterDataJson
 import com.example.effectivemobiletesttask.presentation.ViewModelActivity
-import javax.inject.Inject
 
 class FragmentMainScreen : Fragment() {
     private val viewModelActivity: ViewModelActivity by activityViewModels()
+    private val filter = FilterDataJson()//фильтр данных для rv
     private lateinit var rvBlockRecommendations: RecyclerView
     private lateinit var rvVacancies: RecyclerView
     private val adapterBlockRecommendations by lazy { RVBlockRecommendationsAdapter() }
@@ -66,10 +67,13 @@ class FragmentMainScreen : Fragment() {
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
-    private fun updateDataFragmentMainScreen(response: com.example.effectivemobiletesttask.domain.pojo.ResponseJson) { //обновить данные
-        adapterBlockRecommendations.updateItems(response.offers)
-        adapterVacancies.updateItems(response.vacancies)
-        buttonMoreVacancies.text = setTextButtonMoreVacancies(response.vacancies.size)
+    private fun updateDataFragmentMainScreen(response:ResponseJson) { //обновить данные
+        val dataVacancies = filter.forRvMainScreen(response)
+        val dataBlockRec = filter.forBlockRecommendation(response)
+        val numberVacancies = filter.setNumberVacancies(response)
+        adapterBlockRecommendations.updateItems(dataBlockRec)
+        adapterVacancies.updateItems(dataVacancies)
+        buttonMoreVacancies.text = setTextButtonMoreVacancies(numberVacancies)
     }
     private fun observeViewModel(){//подписываемся на обновления
         viewModelActivity.getLdJson().observe(this){

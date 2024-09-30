@@ -1,6 +1,6 @@
 package com.example.effectivemobiletesttask.presentation.fragments
 
-import RVMoreVacanciesAdapter
+import RVVacanciesAdapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -17,14 +17,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
+import com.example.effectivemobiletesttask.presentation.FilterDataJson
 import com.example.effectivemobiletesttask.presentation.ViewModelActivity
 
 class FragmentMoreVacancies : Fragment() {
     private val viewModelActivity: ViewModelActivity by activityViewModels()
     private lateinit var editText: EditText
+    private val filter = FilterDataJson()//фильтр данных для rv
     private lateinit var tvNumberVacancies: TextView
     private lateinit var compoundDrawables: Array<Drawable>
-    private val adapterMoreVacancies by lazy { RVMoreVacanciesAdapter() }
+    private val adapterMoreVacancies by lazy { RVVacanciesAdapter() }
     private lateinit var rvMoreVacancies: RecyclerView
     private lateinit var iconDrawable: Drawable
     private var activityInterface: FragmentMoreVacanciesInterface? = null
@@ -53,7 +55,8 @@ class FragmentMoreVacancies : Fragment() {
             if (motionEvent.action == MotionEvent.ACTION_UP) {
                 iconDrawable = editText.compoundDrawables[0]
                 if (motionEvent.x < editText.compoundDrawablePadding
-                    + iconDrawable.intrinsicWidth) {
+                    + iconDrawable.intrinsicWidth
+                ) {
                     activityInterface?.clickButtonBack()
                     return@setOnTouchListener true // Обработано, верните true
                 }
@@ -67,30 +70,37 @@ class FragmentMoreVacancies : Fragment() {
         super.onAttach(context)
         if (context is FragmentMoreVacanciesInterface) { //реализуем интерфейс с активностью
             activityInterface = context
-        }
-        else {
-            throw RuntimeException("$context activity does not implement the " +
-                    "FragmentMoreVacanciesInterface")
+        } else {
+            throw RuntimeException(
+                "$context activity does not implement the " +
+                        "FragmentMoreVacanciesInterface"
+            )
         }
     }
-    private fun observeViewModel(){//подписываемся на обновления
-        viewModelActivity.getLdJson().observe(this){
+
+    private fun observeViewModel() {//подписываемся на обновления
+        viewModelActivity.getLdJson().observe(this) {
             updateDataFragmentMoreVacancies(it)
         }
     }
+
     override fun onResume() {
         super.onResume()
         observeViewModel() //подписаться
     }
+
     override fun onDetach() {
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
 
-    private fun updateDataFragmentMoreVacancies(response: com.example.effectivemobiletesttask.domain.pojo.ResponseJson) { //обновить данные
-        adapterMoreVacancies.updateItems(response.vacancies)
-        tvNumberVacancies.text = setTextMoreVacancies(response.vacancies.size)
+    private fun updateDataFragmentMoreVacancies(response: ResponseJson) { //обновить данные
+        val data = filter.forRvMoreVacancies(response)
+        val numberVacancies = filter.setNumberVacancies(response)
+        adapterMoreVacancies.updateItems(data)
+        tvNumberVacancies.text = setTextMoreVacancies(numberVacancies)
     }
+
     private fun setTextMoreVacancies(number: Int): String {//выбор склонения для
         // вывода числа вакансий
         return if (number > 0 && number % 10 == 1 && number != 11)
@@ -99,7 +109,8 @@ class FragmentMoreVacancies : Fragment() {
             "$number вакансии"
         } else "$number вакансий"
     }
-    interface FragmentMoreVacanciesInterface{
+
+    interface FragmentMoreVacanciesInterface {
         fun clickButtonBack()
         fun updateDataFromMoreVacancies()
     }
