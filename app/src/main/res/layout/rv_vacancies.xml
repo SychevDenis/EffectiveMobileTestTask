@@ -43,6 +43,8 @@
 
             <ImageButton
                 android:id="@+id/iv_favorite_rv_vacancies"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

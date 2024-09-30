@@ -5,36 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.fragments.FragmentMenu">
+
     <LinearLayout
         android:id="@+id/fragmentMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@color/black"
-        android:paddingBottom="12dp"
-        android:paddingTop="12dp">
+        android:orientation="horizontal"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
+
         <LinearLayout
             android:id="@+id/llSearchFragmentMenu"
             android:layout_width="0dp"
+            android:layout_marginLeft="4dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
+
             <ImageView
                 android:id="@+id/ivSearchFragmentMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_search"
-                android:contentDescription="Поиск"
+                android:background="@color/black"
+
                 android:clickable="false"
-                android:background="@color/black" />
+                android:contentDescription="Поиск"
+                android:src="@drawable/ic_search" />
 
             <TextView
-                android:paddingTop="2dp"
                 android:id="@+id/textViewSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
+                android:paddingTop="2dp"
                 android:text="Поиск"
                 android:textColor="#9F9F9F"
                 android:textSize="10sp" />
@@ -44,50 +49,90 @@
             android:id="@+id/llFavouritesFragmentMenu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="1"
-            android:gravity="center">
-            <ImageView
-                android:id="@+id/ivFavouritesFragmentMenu"
-                android:clickable="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_favourites"
-                android:contentDescription="Избранное"
-                android:background="@color/black" />
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivFavouritesFragmentMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@color/black"
+                    android:clickable="false"
+                    android:contentDescription="Избранное"
+                    android:paddingRight="4dp"
+                    android:paddingLeft="4dp"
+                    android:src="@drawable/ic_favourites">
+                </ImageView>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end">
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/iv_bubble"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/circle_shape_text">
+                    </ImageView>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/tv_bubble"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:clickable="false"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:text="2"
+                        android:textColor="@color/white"
+                        android:textSize="8sp" />
+
+                </FrameLayout>
+            </FrameLayout>
 
             <TextView
-                android:paddingTop="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
                 android:clickable="false"
+                android:gravity="bottom"
+                android:paddingTop="2dp"
                 android:text="Избранное"
                 android:textColor="#9F9F9F"
                 android:textSize="10sp" />
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llResponsesFragmentMenu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/ivResponsesFragmentMenu"
-                android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_responses"
+                android:background="@color/black"
+                android:clickable="false"
                 android:contentDescription="Отклики"
-                android:background="@color/black" />
+                android:src="@drawable/ic_responses" />
 
             <TextView
-                android:paddingTop="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
+                android:paddingTop="2dp"
                 android:text="Отклики"
                 android:textColor="#9F9F9F"
                 android:textSize="10sp" />
@@ -97,25 +142,25 @@
             android:id="@+id/llMessagesFragmentMenu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/ivMessagesFragmentMenu"
-                android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_message"
                 android:background="@color/black"
-                android:contentDescription="Сообщение" />
+                android:clickable="false"
+                android:contentDescription="Сообщение"
+                android:src="@drawable/ic_message" />
 
             <TextView
-                android:paddingTop="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#FFFFFF"
                 android:clickable="false"
+                android:paddingTop="2dp"
                 android:text="Сообщения"
                 android:textColor="#9F9F9F"
                 android:textSize="10sp" />
@@ -125,24 +170,25 @@
             android:id="@+id/llProfileFragmentMenu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="1"
-            android:gravity="center">
+            android:layout_marginRight="4dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/ivProfileFragmentMenu"
-                android:clickable="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_profile"
                 android:background="@color/black"
-                android:contentDescription="Профиль" />
+                android:clickable="false"
+                android:contentDescription="Профиль"
+                android:src="@drawable/ic_profile" />
 
             <TextView
-                android:paddingTop="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
+                android:paddingTop="2dp"
                 android:text="Профиль"
                 android:textColor="#9F9F9F"
                 android:textSize="10sp" />

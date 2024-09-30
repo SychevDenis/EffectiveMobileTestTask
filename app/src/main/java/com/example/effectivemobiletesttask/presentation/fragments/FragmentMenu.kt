@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
@@ -24,6 +25,8 @@ class FragmentMenu : Fragment() {
     private lateinit var ivResponsesFragmentMenu: ImageView
     private lateinit var ivMessagesFragmentMenu: ImageView
     private lateinit var ivProfileFragmentMenu: ImageView
+    private lateinit var ivBubble: ImageView
+    private lateinit var tvBubble: TextView
     private lateinit var llSearchFragmentMenu: LinearLayout
     private lateinit var llFavouritesFragmentMenu: LinearLayout
     private lateinit var llResponsesFragmentMenu: LinearLayout
@@ -47,6 +50,8 @@ class FragmentMenu : Fragment() {
         ivResponsesFragmentMenu = view.findViewById(R.id.ivResponsesFragmentMenu)
         ivMessagesFragmentMenu = view.findViewById(R.id.ivMessagesFragmentMenu)
         ivProfileFragmentMenu = view.findViewById(R.id.ivProfileFragmentMenu)
+        ivBubble = view.findViewById(R.id.iv_bubble)
+        tvBubble = view.findViewById(R.id.tv_bubble)
         return view
     }
 
@@ -63,10 +68,16 @@ class FragmentMenu : Fragment() {
     }
 
     private fun updateDataMenu(json:ResponseJson) {//обновить фрагмент
-        if (searchFavorites(json.vacancies) > 0) {
-            ivFavouritesFragmentMenu.setImageResource(R.drawable.ic_heart_gray_bable)
+        val vacanciesCount= searchFavorites(json.vacancies)
+        if (vacanciesCount > 0) {
+            ivBubble.visibility=View.VISIBLE
+            tvBubble.apply {
+                this.visibility=View.VISIBLE
+                this.text=vacanciesCount.toString()
+            }
         } else {
-            ivFavouritesFragmentMenu.setImageResource(R.drawable.ic_heart_gray_no_bable)
+            ivBubble.visibility=View.GONE
+            tvBubble.visibility=View.GONE
         }
     }
 
