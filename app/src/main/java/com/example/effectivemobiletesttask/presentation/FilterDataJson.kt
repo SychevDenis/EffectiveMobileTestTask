@@ -26,7 +26,7 @@ class FilterDataJson() {
     fun setNumberVacancies(json: ResponseJson):Int {//вывод количеста вакансий
         return json.vacancies.size
     }
-    fun forBlockRecommendation(json: ResponseJson):List<Offers>{
+    fun forBlockRecommendation(json: ResponseJson):List<Offers>{//вывод блока рекомендаций
         return json.offers
     }
 }

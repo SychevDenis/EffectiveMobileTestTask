@@ -16,12 +16,12 @@ import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
 import com.example.effectivemobiletesttask.presentation.FilterDataJson
 import com.example.effectivemobiletesttask.presentation.ViewModelActivity
 
-class FragmentFavorites : Fragment() {
+class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter  {
     private val viewModelActivity: ViewModelActivity by activityViewModels()
     private val filter = FilterDataJson()//фильтр данных для rv
     private lateinit var rvFavorites: RecyclerView
     private lateinit var tvNumberVacancies: TextView
-    private val adapterFavorites by lazy { RVVacanciesAdapter() }
+    private val adapterFavorites by lazy { RVVacanciesAdapter(listener = this)  }
     private var activityInterface: FragmentFavoritesInterface? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +67,8 @@ class FragmentFavorites : Fragment() {
 
     private fun updateDataFragmentFavorites(response: ResponseJson) { //обновить данные
         val data = filter.forRvFavorites(response)
+        val dataNumber = filter.setNumberVacancies(response)
+        tvNumberVacancies.text=setTextFavorites(dataNumber)
         adapterFavorites.updateItems(data)
     }
 
@@ -81,6 +83,11 @@ class FragmentFavorites : Fragment() {
 
     interface FragmentFavoritesInterface {
         fun updateDataFromFavorites()
+    }
+
+    override fun onClickAdapterButtonFavorites(id: String) { //вызывается из RVVacanciesAdapter
+        viewModelActivity.favoritesTrueFalse(id)
+        viewModelActivity.getLdJson().value?.let {updateDataFragmentFavorites(it)}
     }
 }
 

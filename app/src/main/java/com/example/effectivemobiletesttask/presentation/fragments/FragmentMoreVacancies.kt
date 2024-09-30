@@ -20,13 +20,13 @@ import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
 import com.example.effectivemobiletesttask.presentation.FilterDataJson
 import com.example.effectivemobiletesttask.presentation.ViewModelActivity
 
-class FragmentMoreVacancies : Fragment() {
+class FragmentMoreVacancies : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter {
     private val viewModelActivity: ViewModelActivity by activityViewModels()
     private lateinit var editText: EditText
     private val filter = FilterDataJson()//фильтр данных для rv
     private lateinit var tvNumberVacancies: TextView
     private lateinit var compoundDrawables: Array<Drawable>
-    private val adapterMoreVacancies by lazy { RVVacanciesAdapter() }
+    private val adapterMoreVacancies by lazy { RVVacanciesAdapter(listener = this) }
     private lateinit var rvMoreVacancies: RecyclerView
     private lateinit var iconDrawable: Drawable
     private var activityInterface: FragmentMoreVacanciesInterface? = null
@@ -113,5 +113,10 @@ class FragmentMoreVacancies : Fragment() {
     interface FragmentMoreVacanciesInterface {
         fun clickButtonBack()
         fun updateDataFromMoreVacancies()
+    }
+
+    override fun onClickAdapterButtonFavorites(id: String) { //вызывается из RVVacanciesAdapter
+        viewModelActivity.favoritesTrueFalse(id)
+        viewModelActivity.getLdJson().value?.let {updateDataFragmentMoreVacancies(it)}
     }
 }

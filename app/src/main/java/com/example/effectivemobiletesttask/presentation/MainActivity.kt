@@ -90,9 +90,6 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
                 }
             }
         }
-        // activityExt.replaceFragment(fragmentName, this)
     }
-
-    //исправить баг 1:перейти на второй экран, перевернуть экран, стрелочка назад
 }
 

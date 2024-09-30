@@ -120,10 +120,12 @@ class ExtActivityMain(activity: AppCompatActivity) {
         lifecycleScope: LifecycleCoroutineScope,
         viewModelActivity: ViewModelActivity
     ) {// получение данных из сети и парсинг
-        lifecycleScope.launch {
-            viewModelActivity.updateDataViewModelJson(url).collect { resultJson ->
-                resultJson?.let {
-                    viewModelActivity.setLdJson(it)
+        if (!viewModelActivity.checkingAvailabilityDataVm()) {
+            lifecycleScope.launch {
+                viewModelActivity.updateDataViewModelJson(url).collect { resultJson ->
+                    resultJson?.let {
+                        viewModelActivity.setLdJson(it)
+                    }
                 }
             }
         }

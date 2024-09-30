@@ -26,13 +26,13 @@
             android:id="@+id/tvCountVacanciesFragmentFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:textColor="@color/gray_3" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tvFavoriteFragmentFavorites"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
         </androidx.recyclerview.widget.RecyclerView>

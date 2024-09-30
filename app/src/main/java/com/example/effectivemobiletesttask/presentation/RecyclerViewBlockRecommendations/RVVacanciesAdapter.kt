@@ -11,15 +11,13 @@ import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 
 class RVVacanciesAdapter(
-    private var items: List<Vacancies> = listOf(
-        Vacancies(),
-        Vacancies(),
-        Vacancies()
-    )
+    private var items: List<Vacancies> = listOf(),
+    private var listener: OnClickListenerAdapter
 ) :
     RecyclerView.Adapter<RVVacanciesAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, listener: OnClickListenerAdapter, items: List<Vacancies>) :
+        RecyclerView.ViewHolder(itemView) {
         val tvPeopleViewing: TextView = itemView.findViewById(R.id.tv_people_viewing_rv_vacancies)
         val ibFavorite: ImageButton = itemView.findViewById(R.id.iv_favorite_rv_vacancies)
         val tvTitle: TextView = itemView.findViewById(R.id.tv_title_rv_vacancies)
@@ -31,13 +29,22 @@ class RVVacanciesAdapter(
         val tvDatePublication: TextView =
             itemView.findViewById(R.id.tv_date_publication_rv_vacancies)
         val button: Button = itemView.findViewById(R.id.button_rv_vacancies)
+
+        init {
+            ibFavorite.setOnClickListener {
+                val position = adapterPosition
+                    items[position].id?.let {
+                        listener.onClickAdapterButtonFavorites(it)
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.rv_vacancies, parent, false)
-        return ViewHolder(itemView)
+        return ViewHolder(itemView, listener, items)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -79,8 +86,6 @@ class RVVacanciesAdapter(
         notifyDataSetChanged()
     }
 
-
-
     private fun checkingNumberLooking(number: Int): String { //выбор склонения для просмотров
         return if ((number % 10 == 2 || number % 10 == 3 || number % 10 == 4) &&
             (number % 100 != 12 && number % 100 != 13 && number % 100 != 14)
@@ -99,5 +104,9 @@ class RVVacanciesAdapter(
         val day = data.split("-")[2].toInt()
         val monthNumber = data.split("-")[1].toInt()
         return "Опубликовано $day ${months[monthNumber]}"
+    }
+
+    interface OnClickListenerAdapter {
+        fun onClickAdapterButtonFavorites(position: String)
     }
 }
