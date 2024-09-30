@@ -57,7 +57,7 @@ class FragmentFavorites : Fragment() {
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
-    private fun updateDataFragmentFavorites(response: ResponseJson) { //обновить данные
+    private fun updateDataFragmentFavorites(response: com.example.effectivemobiletesttask.domain.pojo.ResponseJson) { //обновить данные
         adapterFavorites.updateItems(response.vacancies)
     }
     private fun setTextFavorites(number: Int): String {//выбор склонения для

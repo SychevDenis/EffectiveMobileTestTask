@@ -66,7 +66,7 @@ class FragmentMainScreen : Fragment() {
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
-    private fun updateDataFragmentMainScreen(response: ResponseJson) { //обновить данные
+    private fun updateDataFragmentMainScreen(response: com.example.effectivemobiletesttask.domain.pojo.ResponseJson) { //обновить данные
         adapterBlockRecommendations.updateItems(response.offers)
         adapterVacancies.updateItems(response.vacancies)
         buttonMoreVacancies.text = setTextButtonMoreVacancies(response.vacancies.size)

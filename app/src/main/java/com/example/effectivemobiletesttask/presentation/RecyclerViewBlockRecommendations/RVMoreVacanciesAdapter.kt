@@ -12,10 +12,10 @@ import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 
 class RVMoreVacanciesAdapter(
-    private var items: List<Vacancies> = listOf(
-        Vacancies(),
-        Vacancies(),
-        Vacancies()
+    private var items: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies> = listOf(
+        com.example.effectivemobiletesttask.domain.pojo.Vacancies(),
+        com.example.effectivemobiletesttask.domain.pojo.Vacancies(),
+        com.example.effectivemobiletesttask.domain.pojo.Vacancies()
     )
 ) :
     RecyclerView.Adapter<RVMoreVacanciesAdapter.ViewHolder>() {
@@ -75,7 +75,7 @@ class RVMoreVacanciesAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(newItems: List<Vacancies>) {
+    fun updateItems(newItems: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies>) {
         this.items = newItems
         notifyDataSetChanged()
     }

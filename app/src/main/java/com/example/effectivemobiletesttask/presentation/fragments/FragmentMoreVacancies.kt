@@ -87,7 +87,7 @@ class FragmentMoreVacancies : Fragment() {
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
 
-    private fun updateDataFragmentMoreVacancies(response: ResponseJson) { //обновить данные
+    private fun updateDataFragmentMoreVacancies(response: com.example.effectivemobiletesttask.domain.pojo.ResponseJson) { //обновить данные
         adapterMoreVacancies.updateItems(response.vacancies)
         tvNumberVacancies.text = setTextMoreVacancies(response.vacancies.size)
     }

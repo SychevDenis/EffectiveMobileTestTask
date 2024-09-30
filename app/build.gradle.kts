@@ -36,11 +36,15 @@ android {
     }
 }
 
+
 dependencies {
     implementation ("com.google.dagger:dagger:2.51")
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.1")
     implementation("androidx.navigation:navigation-ui-ktx:2.8.1")
     kapt ("com.google.dagger:dagger-compiler:2.51")
+
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
     implementation ("androidx.fragment:fragment-ktx:1.8.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3") // Coroutines

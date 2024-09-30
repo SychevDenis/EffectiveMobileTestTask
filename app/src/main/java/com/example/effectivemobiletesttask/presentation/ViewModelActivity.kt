@@ -1,14 +1,7 @@
 package com.example.effectivemobiletesttask.presentation
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.effectivemobiletesttask.R
-import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
-import com.example.effectivemobiletesttask.domain.use_cases.RequestJsonUseCase
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.Dispatchers
@@ -18,16 +11,17 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ViewModelActivity
-@Inject constructor(private val requestJsonUseCase: RequestJsonUseCase) :
+@Inject constructor(private val requestJsonUseCase: com.example.effectivemobiletesttask.domain.use_cases.RequestJsonUseCase) :
     ViewModel() {
 
-    private val ldJson: MutableLiveData<ResponseJson> = MutableLiveData()
+    private val ldJson: MutableLiveData<com.example.effectivemobiletesttask.domain.pojo.ResponseJson> =
+        MutableLiveData()
 
-    fun setLdJson(json: ResponseJson) {
+    fun setLdJson(json: com.example.effectivemobiletesttask.domain.pojo.ResponseJson) {
         ldJson.value = json
     }
 
-    fun getLdJson(): MutableLiveData<ResponseJson> {
+    fun getLdJson(): MutableLiveData<com.example.effectivemobiletesttask.domain.pojo.ResponseJson> {
         return ldJson
     }
 
@@ -38,19 +32,22 @@ class ViewModelActivity
         }
     }
 
-    private fun parseJson(jsonString: String): ResponseJson? { //функция парсинга json
+    private fun parseJson(jsonString: String): com.example.effectivemobiletesttask.domain.pojo.ResponseJson? { //функция парсинга json
         val gson = Gson()
         return try {
-            gson.fromJson(jsonString, ResponseJson::class.java)
+            gson.fromJson(
+                jsonString,
+                com.example.effectivemobiletesttask.domain.pojo.ResponseJson::class.java
+            )
         } catch (e: JsonSyntaxException) {
             null //возвращаем null, если произошла ошибка при парсинге
         }
     }
 
-    fun updateDataViewModelJson(url: String): Flow<ResponseJson?> {// Функция для получения и парсинга данных
+    fun updateDataViewModelJson(url: String): Flow<com.example.effectivemobiletesttask.domain.pojo.ResponseJson?> {// Функция для получения и парсинга данных
         return flow {
             requestJson(url).collect { jsonString ->
-                 emit(parseJson(jsonString)) // Выводим результат парсинга
+                emit(parseJson(jsonString)) // Выводим результат парсинга
             }
         }
     }

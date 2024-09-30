@@ -10,10 +10,10 @@ import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 
 class RVFavoritesAdapter(
-    private var items: List<Vacancies> = listOf(
-        Vacancies(),
-        Vacancies(),
-        Vacancies()
+    private var items: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies> = listOf(
+        com.example.effectivemobiletesttask.domain.pojo.Vacancies(),
+        com.example.effectivemobiletesttask.domain.pojo.Vacancies(),
+        com.example.effectivemobiletesttask.domain.pojo.Vacancies()
     )
 ) : RecyclerView.Adapter<RVFavoritesAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -71,14 +71,14 @@ class RVFavoritesAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(newItems: List<Vacancies>) {
+    fun updateItems(newItems: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies>) {
         this.items = searchFavoritesTrue(newItems)
         notifyDataSetChanged()
     }
 
-    private fun searchFavoritesTrue(vacancies: List<Vacancies>) :List<Vacancies> {
+    private fun searchFavoritesTrue(vacancies: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies>) :List<com.example.effectivemobiletesttask.domain.pojo.Vacancies> {
         //оставляет только те элементы, где есть лайки
-        val listVacancies = mutableListOf<Vacancies>()
+        val listVacancies = mutableListOf<com.example.effectivemobiletesttask.domain.pojo.Vacancies>()
         for (item in vacancies) {
             if (item.isFavorite == true) {
                 listVacancies.add(item)

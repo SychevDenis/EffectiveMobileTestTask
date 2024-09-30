@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         controller = findNavController(R.id.nav_host_fragment)
-        activityExt = ExtActivityMain(savedInstanceState, this)
+        activityExt = ExtActivityMain(this)
 
     }
 
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
     }
 
     override fun clickButtonMenu(fragmentName: String) {//вызывается из фрагмента  Menu
-        if (fragmentName == getString(R.string.fragmentFavorites)) {
+        if (fragmentName == getString(R.string.fragmentFavorites)) {//переход на избранное
             when (controller.currentDestination?.id) {
                 R.id.fragment_main_screen -> {
                     controller.navigate(R.id.action_fragment_main_screen_to_fragment_favorites)
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
                 else -> {
                 }
             }
-        } else if (fragmentName == getString(R.string.fragmentMainScreen)) {
+        } else if (fragmentName == getString(R.string.fragmentMainScreen)) {//переход на главный экран
             when (controller.currentDestination?.id) {
                 R.id.fragment_more_vacancies -> {
                     controller.navigate(R.id.action_fragment_more_vacancies_to_fragment_main_screen)

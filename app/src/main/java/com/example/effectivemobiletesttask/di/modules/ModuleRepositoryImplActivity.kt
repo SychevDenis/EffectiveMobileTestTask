@@ -10,9 +10,9 @@ import dagger.Provides
 class ModuleRepositoryImplActivity{
     @Provides
     fun provideRepositoryImpl(
-        getJson: RequestJson
-    ): RepositoryActivity {
-        return RepositoryImplActivity(
+        getJson: com.example.effectivemobiletesttask.data.metodsRepositoruImplActivity.RequestJson
+    ): com.example.effectivemobiletesttask.domain.RepositoryActivity {
+        return com.example.effectivemobiletesttask.data.RepositoryImplActivity(
             getJson
         )
     }

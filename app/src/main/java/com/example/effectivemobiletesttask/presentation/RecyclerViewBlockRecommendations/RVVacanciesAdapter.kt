@@ -12,10 +12,10 @@ import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 
 class RVVacanciesAdapter(
-    private var items: List<Vacancies> = listOf(
-        Vacancies(),
-        Vacancies(),
-        Vacancies()
+    private var items: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies> = listOf(
+        com.example.effectivemobiletesttask.domain.pojo.Vacancies(),
+        com.example.effectivemobiletesttask.domain.pojo.Vacancies(),
+        com.example.effectivemobiletesttask.domain.pojo.Vacancies()
     )
 ) :
     RecyclerView.Adapter<RVVacanciesAdapter.ViewHolder>() {
@@ -75,13 +75,13 @@ class RVVacanciesAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(newItems: List<Vacancies>) {
+    fun updateItems(newItems: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies>) {
         this.items = limitingElements(newItems)
         notifyDataSetChanged()
     }
 
-    private fun limitingElements(items: List<Vacancies>): // ограничение данных
-            List<Vacancies> {//передать только первые 3 элемента
+    private fun limitingElements(items: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies>): // ограничение данных
+            List<com.example.effectivemobiletesttask.domain.pojo.Vacancies> {//передать только первые 3 элемента
         return items.take(3)
     }
 

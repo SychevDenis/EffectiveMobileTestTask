@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Offers
 
-class RVBlockRecommendationsAdapter(private var items: List<Offers> = listOf()) :
+class RVBlockRecommendationsAdapter(private var items: List<com.example.effectivemobiletesttask.domain.pojo.Offers> = listOf()) :
     RecyclerView.Adapter<RVBlockRecommendationsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -67,7 +67,7 @@ class RVBlockRecommendationsAdapter(private var items: List<Offers> = listOf()) 
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(newItems: List<Offers>) {
+    fun updateItems(newItems: List<com.example.effectivemobiletesttask.domain.pojo.Offers>) {
         this.items = newItems
         notifyDataSetChanged()//знаю, что лучше не использовать, но в данном случае можно, так как
         //элементов мало

@@ -62,7 +62,7 @@ class FragmentMenu : Fragment() {
         }
     }
 
-    private fun updateDataMenu(json: ResponseJson) {//обновить фрагмент
+    private fun updateDataMenu(json: com.example.effectivemobiletesttask.domain.pojo.ResponseJson) {//обновить фрагмент
         if (searchFavorites(json.vacancies) > 0) {
             ivFavouritesFragmentMenu.setImageResource(R.drawable.ic_heart_gray_bable)
         } else {
@@ -70,7 +70,7 @@ class FragmentMenu : Fragment() {
         }
     }
 
-    private fun searchFavorites(vacancies: List<Vacancies>): Int {
+    private fun searchFavorites(vacancies: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies>): Int {
         var countFavoritesTrue = 0
         for (item in vacancies) {
             if (item.isFavorite == true) {
