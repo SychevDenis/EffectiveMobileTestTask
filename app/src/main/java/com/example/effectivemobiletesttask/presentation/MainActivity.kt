@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
     }
 
     override fun onClickCard() {
-        navigate(getString(R.string.fragmentPlug))
+        activityExt.navigate(controller,getString(R.string.fragmentPlug),)
     }
 
     override fun clickButtonBack() { //вызывается из фрагмента MoreVacancies
@@ -69,63 +69,11 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
     }
 
     override fun clickButtonMenu(fragmentName: String) {//вызывается из фрагмента  Menu
-        navigate(fragmentName)
+        activityExt.navigate(controller,fragmentName)
     }
-    private fun navigate(fragmentName: String){
-        when (fragmentName) {
-            getString(R.string.fragmentFavorites) -> {//переход на избранное
-                when (controller.currentDestination?.id) {
-                    R.id.fragment_main_screen -> {
-                        controller.navigate(R.id.action_fragment_main_screen_to_fragment_favorites)
-                    }
-                    R.id.fragment_more_vacancies -> {
-                        controller.navigate(R.id.action_fragment_more_vacancies_to_fragment_favorites)
-                    }
-                    R.id.fragment_plug -> {
-                        controller.navigate(R.id.action_fragment_plug_to_fragment_favorites4)
-                    }
-                    else -> {
-                    }
-                }
-            }
-            getString(R.string.fragmentMainScreen) -> {//переход на главный экран
-                when (controller.currentDestination?.id) {
-                    R.id.fragment_more_vacancies -> {
-                        controller.navigate(R.id.action_fragment_more_vacancies_to_fragment_main_screen)
-                    }
 
-                    R.id.fragment_favorites -> {
-                        controller.navigate(R.id.action_fragment_favorites_to_fragment_main_screen2)
-                    }
-                    R.id.fragment_plug -> {
-                        controller.navigate(R.id.action_fragment_plug_to_fragment_main_screen2)
-                    }
-                    else -> {
-                    }
-                }
-            }
-            getString(R.string.fragmentPlug) -> {//переход на заглушку
-                when (controller.currentDestination?.id) {
-                    R.id.fragment_more_vacancies -> {
-                        controller.navigate(R.id.action_fragment_more_vacancies_to_fragment_plug)
-                    }
-
-                    R.id.fragment_favorites -> {
-                        controller.navigate(R.id.action_fragment_favorites_to_fragment_plug)
-                    }
-
-                    R.id.fragment_main_screen -> {
-                        controller.navigate(R.id.action_fragment_main_screen_to_fragment_plug)
-                    }
-
-                    else -> {
-                    }
-                }
-            }
-        }
-    }
 
 }
-// перенести navigate в ext
+
 // переделать метод get value vm во вью модели
 // исправить баг с лайками
