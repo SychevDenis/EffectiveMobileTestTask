@@ -81,7 +81,6 @@ class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter 
     }
 
     interface FragmentFavoritesInterface {
-        fun updateDataFromFavorites()
         fun onClickCard()
     }
 

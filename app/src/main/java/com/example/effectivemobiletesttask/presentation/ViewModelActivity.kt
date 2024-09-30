@@ -3,6 +3,7 @@ package com.example.effectivemobiletesttask.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
+import com.example.effectivemobiletesttask.domain.use_cases.ChoosingDeclensionTextUseCase
 import com.example.effectivemobiletesttask.domain.use_cases.RequestJsonUseCase
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -13,8 +14,10 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ViewModelActivity
-@Inject constructor(private val requestJsonUseCase: RequestJsonUseCase) :
-    ViewModel() {
+@Inject constructor(
+    private val requestJsonUseCase: RequestJsonUseCase,
+    private val choosingDeclensionText: ChoosingDeclensionTextUseCase
+) : ViewModel() {
 
     private val ldJson: MutableLiveData<ResponseJson> = MutableLiveData()
 
@@ -22,22 +25,28 @@ class ViewModelActivity
         ldJson.value = json
     }
 
-    fun favoritesTrueFalse(id:String){//поиск по id и замена данных в ldJson
+    fun choosingDeclensionText(number: Int): String { //выбор склонения для текста
+       return choosingDeclensionText.run(number)
+    }
+
+    fun favoritesTrueFalse(id: String) {//поиск по id и замена данных в ldJson
         var json = ResponseJson()
-        getLdJson().value?.let { json= it }
+        getLdJson().value?.let { json = it }
         json.apply {
-            for (i in this.vacancies){
-                if (i.id==id){
+            for (i in this.vacancies) {
+                if (i.id == id) {
                     i.isFavorite = i.isFavorite?.not()
                 }
             }
         }
         setLdJson(json)
     }
+
     fun getLdJson(): MutableLiveData<ResponseJson> {
         return ldJson
     }
-    fun checkingAvailabilityDataVm():Boolean{//проверка на наличие данных
+
+    fun checkingAvailabilityDataVm(): Boolean {//проверка на наличие данных
         return getLdJson().value != null
     }
 

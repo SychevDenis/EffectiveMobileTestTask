@@ -68,6 +68,6 @@ class RVBlockRecommendationsAdapter(private var items: List<com.example.effectiv
     fun updateItems(newItems: List<com.example.effectivemobiletesttask.domain.pojo.Offers>) {
         this.items = newItems
         notifyDataSetChanged()//знаю, что лучше не использовать, но в данном случае можно, так как
-        //элементов мало
+        //элементов мало и они не интерактивны и не меняются
     }
 }

@@ -1,4 +1,4 @@
-package com.example.effectivemobiletesttask.data.metodsRepositoruImplActivity
+package com.example.effectivemobiletesttask.data.metodsRepositoruImpl
 
 import okhttp3.OkHttpClient
 import okhttp3.Request

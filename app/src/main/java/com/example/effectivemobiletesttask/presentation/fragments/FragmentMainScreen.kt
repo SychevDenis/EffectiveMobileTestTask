@@ -32,7 +32,7 @@ class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main_screen, container, false)
-           // Устанавливаем менеджер компоновки для обоих RecyclerView
+        // Устанавливаем менеджер компоновки для обоих RecyclerView
         rvBlockRecommendations = view.findViewById(R.id.rvBlockRecommendationsFragmentMainScreen)
         buttonMoreVacancies = view.findViewById(R.id.buttonMoreVacanciesFragmentMainScreen)
         rvVacancies = view.findViewById(R.id.rvVacanciesFragmentMainScreen)
@@ -44,19 +44,22 @@ class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter
         rvVacancies.adapter = adapterVacancies
         return view
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is FragmentMainScreenInterface) { //реализуем интерфейс с активностью
             activityInterface = context
-        }
-        else {
-            throw RuntimeException("$context activity does not implement the " +
-                    "FragmentMainScreenInterface ")
+        } else {
+            throw RuntimeException(
+                "$context activity does not implement the " +
+                        "FragmentMainScreenInterface "
+            )
         }
     }
+
     override fun onResume() {
         super.onResume()
-        buttonMoreVacancies.setOnClickListener{//подключаем слушатель кнопки
+        buttonMoreVacancies.setOnClickListener {//подключаем слушатель кнопки
             activityInterface?.clickButtonMoreVacancies()
         }
         observeViewModel()
@@ -66,8 +69,8 @@ class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
-    var i = 0
-    private fun updateDataFragmentMainScreen(response:ResponseJson) { //обновить данные
+
+    private fun updateDataFragmentMainScreen(response: ResponseJson) { //обновить данные
         val newData = filter.forRvMainScreen(response)
         val dataBlockRec = filter.forBlockRecommendation(response)
         val numberVacancies = filter.setNumberVacancies(response)
@@ -75,25 +78,26 @@ class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter
         adapterBlockRecommendations.updateItems(dataBlockRec)
         buttonMoreVacancies.text = setTextButtonMoreVacancies(numberVacancies)
     }
-    private fun observeViewModel(){//подписываемся на обновления
-        viewModelActivity.getLdJson().observe(this){
+
+    private fun observeViewModel() {//подписываемся на обновления
+        viewModelActivity.getLdJson().observe(this) {
             updateDataFragmentMainScreen(it.copy())
         }
     }
-    private fun setTextButtonMoreVacancies(number: Int): String {//выбор склонения для
-        // вывода числа вакансий
-        return if (number > 0 && number % 10 == 1 && number != 11)
-            "Еще $number вакансия"
-        else if (number % 10 in listOf(2, 3, 4) && number != 12 && number != 13 && number != 14) {
-            "Еще $number вакансии"
-        } else "Еще $number вакансий"
+
+    private fun setTextButtonMoreVacancies(number: Int): String {//выбор склонения для текста
+        return viewModelActivity.choosingDeclensionText(number)
     }
-    interface FragmentMainScreenInterface{
+
+    interface FragmentMainScreenInterface {
         fun clickButtonMoreVacancies()
         fun onClickCard()
     }
 
-    override fun onClickAdapterButtonFavorites(id: String,position: Int) { //вызывается из RVVacanciesAdapter
+    override fun onClickAdapterButtonFavorites(
+        id: String,
+        position: Int
+    ) { //вызывается из RVVacanciesAdapter
         viewModelActivity.favoritesTrueFalse(id)
     }
 

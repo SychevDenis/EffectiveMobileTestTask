@@ -5,28 +5,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.di.DaggerComponentsActivity
+
 import com.example.effectivemobiletesttask.presentation.fragments.FragmentFavorites
 import com.example.effectivemobiletesttask.presentation.fragments.FragmentMainScreen
 import com.example.effectivemobiletesttask.presentation.fragments.FragmentMenu
 import com.example.effectivemobiletesttask.presentation.fragments.FragmentMoreVacancies
-import com.google.android.material.navigation.NavigationView
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenInterface,
     FragmentMoreVacancies.FragmentMoreVacanciesInterface,
     FragmentFavorites.FragmentFavoritesInterface, FragmentMenu.FragmentMenuInterface {
-    private lateinit var activityExt: ExtActivityMain //объект разширения активности
+
     private lateinit var controller: NavController
+    private lateinit var activityExt: ExtActivityMain  //объект разширения активности
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
     private val viewModelActivity by lazy { //получение view model через фабрику
         ViewModelProvider(this, viewModelFactory)[ViewModelActivity::class.java]
     }
@@ -40,7 +38,6 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
         setContentView(R.layout.activity_main)
         controller = findNavController(R.id.nav_host_fragment)
         activityExt = ExtActivityMain(this)
-
     }
 
     override fun onResume() {
@@ -53,27 +50,18 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
     }
 
     override fun onClickCard() {
-        activityExt.navigate(controller,getString(R.string.fragmentPlug),)
+        activityExt.navigate(controller, getString(R.string.fragmentPlug))
     }
 
     override fun clickButtonBack() { //вызывается из фрагмента MoreVacancies
-
+        controller.navigate(R.id.action_fragment_more_vacancies_to_fragment_main_screen)
     }
 
-    override fun updateDataFromMoreVacancies() {//вызывается из фрагмента MoreVacancies
-
-    }
-
-    override fun updateDataFromFavorites() {//вызывается из фрагмента Favorites
-
-    }
 
     override fun clickButtonMenu(fragmentName: String) {//вызывается из фрагмента  Menu
-        activityExt.navigate(controller,fragmentName)
+        activityExt.navigate(controller, fragmentName)
     }
 
-
 }
-
 // переделать метод get value vm во вью модели
 // исправить баг с лайками

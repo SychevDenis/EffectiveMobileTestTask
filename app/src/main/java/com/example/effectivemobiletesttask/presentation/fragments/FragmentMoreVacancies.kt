@@ -113,7 +113,6 @@ class FragmentMoreVacancies : Fragment(), RVVacanciesAdapter.OnClickListenerAdap
     interface FragmentMoreVacanciesInterface {
         fun clickButtonBack()
         fun onClickCard()
-        fun updateDataFromMoreVacancies()
     }
 
     override fun onClickAdapterButtonFavorites(id: String, position: Int) { //вызывается из RVVacanciesAdapter

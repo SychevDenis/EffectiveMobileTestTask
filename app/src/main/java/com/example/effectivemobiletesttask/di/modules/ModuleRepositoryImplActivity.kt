@@ -1,8 +1,9 @@
 package com.example.effectivemobiletesttask.di.modules
 
-import com.example.effectivemobiletesttask.data.RepositoryImplActivity
-import com.example.effectivemobiletesttask.data.metodsRepositoruImplActivity.RequestJson
-import com.example.effectivemobiletesttask.domain.RepositoryActivity
+import com.example.effectivemobiletesttask.data.RepositoryImpl
+import com.example.effectivemobiletesttask.data.metodsRepositoruImpl.ChoosingDeclensionText
+import com.example.effectivemobiletesttask.data.metodsRepositoruImpl.RequestJson
+import com.example.effectivemobiletesttask.domain.Repository
 import dagger.Module
 import dagger.Provides
 
@@ -10,10 +11,9 @@ import dagger.Provides
 class ModuleRepositoryImplActivity{
     @Provides
     fun provideRepositoryImpl(
-        getJson: com.example.effectivemobiletesttask.data.metodsRepositoruImplActivity.RequestJson
-    ): com.example.effectivemobiletesttask.domain.RepositoryActivity {
-        return com.example.effectivemobiletesttask.data.RepositoryImplActivity(
-            getJson
-        )
+        getJson: RequestJson,
+        choosingDeclensionText:ChoosingDeclensionText
+    ): Repository {
+        return RepositoryImpl(getJson,choosingDeclensionText)
     }
 }
