@@ -57,7 +57,6 @@ class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter 
     override fun onResume() {
         super.onResume()
         observeViewModel() //подписаться и обновить данные
-        //activityInterface?.updateDataFromFavorites()
     }
 
     override fun onDetach() {
@@ -66,10 +65,10 @@ class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter 
     }
 
     private fun updateDataFragmentFavorites(response: ResponseJson) { //обновить данные
-        val data = filter.forRvFavorites(response)
-        val dataNumber = filter.setNumberVacancies(response)
+        val newData = filter.forRvFavorites(response)
+        val dataNumber = newData.size
         tvNumberVacancies.text=setTextFavorites(dataNumber)
-        adapterFavorites.updateItems(data)
+        adapterFavorites.updateData(newData)
     }
 
     private fun setTextFavorites(number: Int): String {//выбор склонения для
@@ -85,9 +84,9 @@ class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter 
         fun updateDataFromFavorites()
     }
 
-    override fun onClickAdapterButtonFavorites(id: String) { //вызывается из RVVacanciesAdapter
+    override fun onClickAdapterButtonFavorites(id: String,position: Int) { //вызывается из RVVacanciesAdapter
+        println(id)
         viewModelActivity.favoritesTrueFalse(id)
-        viewModelActivity.getLdJson().value?.let {updateDataFragmentFavorites(it)}
     }
 }
 

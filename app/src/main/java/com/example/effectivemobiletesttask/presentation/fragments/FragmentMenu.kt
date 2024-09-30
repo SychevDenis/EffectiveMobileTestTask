@@ -88,13 +88,13 @@ class FragmentMenu : Fragment() {
             activityInterface?.clickButtonMenu(getString(R.string.fragmentFavorites))
         }
         llResponsesFragmentMenu.setOnClickListener {
-
+            activityInterface?.clickButtonMenu(getString(R.string.fragmentPlug))
         }
         llMessagesFragmentMenu.setOnClickListener {
-
+            activityInterface?.clickButtonMenu(getString(R.string.fragmentPlug))
         }
         llProfileFragmentMenu.setOnClickListener {
-
+            activityInterface?.clickButtonMenu(getString(R.string.fragmentPlug))
         }
     }
 

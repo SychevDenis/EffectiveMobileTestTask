@@ -16,22 +16,23 @@ class ViewModelActivity
 @Inject constructor(private val requestJsonUseCase: RequestJsonUseCase) :
     ViewModel() {
 
-    private val ldJson: MutableLiveData<ResponseJson> =
-        MutableLiveData()
+    private val ldJson: MutableLiveData<ResponseJson> = MutableLiveData()
 
     fun setLdJson(json: ResponseJson) {
         ldJson.value = json
     }
 
-    fun favoritesTrueFalse(id:String){
-        getLdJson().value?.let {
-            for (i in it.vacancies){
+    fun favoritesTrueFalse(id:String){//поиск по id и замена данных в ldJson
+        var json = ResponseJson()
+        getLdJson().value?.let { json= it }
+        json.apply {
+            for (i in this.vacancies){
                 if (i.id==id){
                     i.isFavorite = i.isFavorite?.not()
                 }
             }
         }
-
+        setLdJson(json)
     }
     fun getLdJson(): MutableLiveData<ResponseJson> {
         return ldJson

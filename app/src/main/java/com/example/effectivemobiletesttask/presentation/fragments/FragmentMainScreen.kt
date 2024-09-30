@@ -60,24 +60,24 @@ class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter
             activityInterface?.clickButtonMoreVacancies()
         }
         observeViewModel()
-       // activityInterface?.updateDataFromMainScreen()//запрашиваем данные для фрагмента из сети
     }
 
     override fun onDetach() {
         super.onDetach()
         activityInterface = null //на всякий пожарный дабы утечек памяти не было
     }
+    var i = 0
     private fun updateDataFragmentMainScreen(response:ResponseJson) { //обновить данные
-        val dataVacancies = filter.forRvMainScreen(response)
+        val newData = filter.forRvMainScreen(response)
         val dataBlockRec = filter.forBlockRecommendation(response)
         val numberVacancies = filter.setNumberVacancies(response)
+        adapterVacancies.updateData(newData)
         adapterBlockRecommendations.updateItems(dataBlockRec)
-        adapterVacancies.updateItems(dataVacancies)
         buttonMoreVacancies.text = setTextButtonMoreVacancies(numberVacancies)
     }
     private fun observeViewModel(){//подписываемся на обновления
         viewModelActivity.getLdJson().observe(this){
-            updateDataFragmentMainScreen(it)
+            updateDataFragmentMainScreen(it.copy())
         }
     }
     private fun setTextButtonMoreVacancies(number: Int): String {//выбор склонения для
@@ -92,8 +92,7 @@ class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter
         fun clickButtonMoreVacancies()
     }
 
-    override fun onClickAdapterButtonFavorites(id: String) { //вызывается из RVVacanciesAdapter
+    override fun onClickAdapterButtonFavorites(id: String,position: Int) { //вызывается из RVVacanciesAdapter
         viewModelActivity.favoritesTrueFalse(id)
-        viewModelActivity.getLdJson().value?.let {updateDataFragmentMainScreen(it)}
     }
 }

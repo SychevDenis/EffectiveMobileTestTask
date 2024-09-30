@@ -1,4 +1,3 @@
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -6,15 +5,17 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.collection.MutableIntList
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 
 class RVVacanciesAdapter(
-    private var items: List<Vacancies> = listOf(),
     private var listener: OnClickListenerAdapter
 ) :
     RecyclerView.Adapter<RVVacanciesAdapter.ViewHolder>() {
+    private var items: List<Vacancies> = listOf()
 
     class ViewHolder(itemView: View, listener: OnClickListenerAdapter, items: List<Vacancies>) :
         RecyclerView.ViewHolder(itemView) {
@@ -32,9 +33,8 @@ class RVVacanciesAdapter(
 
         init {
             ibFavorite.setOnClickListener {
-                val position = adapterPosition
-                    items[position].id?.let {
-                        listener.onClickAdapterButtonFavorites(it)
+                items[adapterPosition].id?.let {
+                    listener.onClickAdapterButtonFavorites(it, adapterPosition)
                 }
             }
         }
@@ -49,11 +49,10 @@ class RVVacanciesAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-
         item.lookingNumber?.let { //если lookingNumber есть, то
             holder.tvPeopleViewing.text = checkingNumberLooking(it)
-        }?:run {
-            holder.tvPeopleViewing.visibility=View.GONE
+        } ?: run {
+            holder.tvPeopleViewing.visibility = View.GONE
         }
 
         item.isFavorite?.let {
@@ -82,11 +81,17 @@ class RVVacanciesAdapter(
         return items.size
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(newItems: List<Vacancies>) {
-        this.items = newItems
-        notifyDataSetChanged()
-    }
+//    @SuppressLint("NotifyDataSetChanged")
+//    fun updateItems(newItems: List<Vacancies>) {
+//        this.items = newItems
+//        notifyDataSetChanged()
+//    }
+//
+//    @SuppressLint("NotifyDataSetChanged")
+//    fun updateItemsPosition(newItems: List<Vacancies>, position: Int) {
+//        this.items = newItems
+//        notifyItemChanged(position)
+//    }
 
     private fun checkingNumberLooking(number: Int): String { //выбор склонения для просмотров
         return if ((number % 10 == 2 || number % 10 == 3 || number % 10 == 4) &&
@@ -108,7 +113,23 @@ class RVVacanciesAdapter(
         return "Опубликовано $day ${months[monthNumber]}"
     }
 
+    fun updateData(newDataList: List<Vacancies>) {
+        val diffCallback = object : DiffUtil.Callback() {
+            override fun getOldListSize(): Int = items.size
+            override fun getNewListSize(): Int = newDataList.size
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                items[oldItemPosition].id == newDataList[newItemPosition].id
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                items[oldItemPosition].id == newDataList[newItemPosition].id
+                        && items[oldItemPosition].isFavorite != newDataList[newItemPosition].isFavorite
+        }
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        diffResult.dispatchUpdatesTo(this)
+        items=newDataList.toList()
+    }
+
     interface OnClickListenerAdapter {
-        fun onClickAdapterButtonFavorites(position: String)
+        fun onClickAdapterButtonFavorites(id: String, position: Int)
     }
 }
