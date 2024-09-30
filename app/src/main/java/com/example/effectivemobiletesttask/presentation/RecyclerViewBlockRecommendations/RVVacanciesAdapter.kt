@@ -52,6 +52,8 @@ class RVVacanciesAdapter(
 
         item.lookingNumber?.let { //если lookingNumber есть, то
             holder.tvPeopleViewing.text = checkingNumberLooking(it)
+        }?:run {
+            holder.tvPeopleViewing.visibility=View.GONE
         }
 
         item.isFavorite?.let {
