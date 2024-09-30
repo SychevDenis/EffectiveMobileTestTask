@@ -1,11 +1,12 @@
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.collection.MutableIntList
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
@@ -19,6 +20,7 @@ class RVVacanciesAdapter(
 
     class ViewHolder(itemView: View, listener: OnClickListenerAdapter, items: List<Vacancies>) :
         RecyclerView.ViewHolder(itemView) {
+        val lRvVacancies:LinearLayout = itemView.findViewById(R.id.layout_rv_vacancies)
         val tvPeopleViewing: TextView = itemView.findViewById(R.id.tv_people_viewing_rv_vacancies)
         val ibFavorite: ImageButton = itemView.findViewById(R.id.iv_favorite_rv_vacancies)
         val tvTitle: TextView = itemView.findViewById(R.id.tv_title_rv_vacancies)
@@ -36,6 +38,12 @@ class RVVacanciesAdapter(
                 items[adapterPosition].id?.let {
                     listener.onClickAdapterButtonFavorites(it, adapterPosition)
                 }
+            }
+            lRvVacancies.setOnClickListener{
+                listener.onClickCard()
+            }
+            button.setOnClickListener {
+                //ничего не делать
             }
         }
     }
@@ -57,7 +65,7 @@ class RVVacanciesAdapter(
 
         item.isFavorite?.let {
             if (it) holder.ibFavorite.setImageResource(R.drawable.ic_heart_blue)
-            else holder.ibFavorite.setImageResource(R.drawable.ic_heart_gray_no_bable)
+            else holder.ibFavorite.setImageResource(R.drawable.ic_heart_gray_no_bubble)
         }
 
         holder.tvTitle.text = item.title
@@ -81,12 +89,13 @@ class RVVacanciesAdapter(
         return items.size
     }
 
-//    @SuppressLint("NotifyDataSetChanged")
-//    fun updateItems(newItems: List<Vacancies>) {
-//        this.items = newItems
-//        notifyDataSetChanged()
-//    }
-//
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateItems(newItems: List<Vacancies>) { //метод обновления RV. Не рекомендуется
+        // использовать, включил его лишь для того, что бы успеть в недельный срок
+        this.items = newItems
+        notifyDataSetChanged()
+    }
+
 //    @SuppressLint("NotifyDataSetChanged")
 //    fun updateItemsPosition(newItems: List<Vacancies>, position: Int) {
 //        this.items = newItems
@@ -114,6 +123,7 @@ class RVVacanciesAdapter(
     }
 
     fun updateData(newDataList: List<Vacancies>) {
+        //метод обновления RV. Сделано не верно, есть баги, исправлю их, если успею
         val diffCallback = object : DiffUtil.Callback() {
             override fun getOldListSize(): Int = items.size
             override fun getNewListSize(): Int = newDataList.size
@@ -131,5 +141,6 @@ class RVVacanciesAdapter(
 
     interface OnClickListenerAdapter {
         fun onClickAdapterButtonFavorites(id: String, position: Int)
+        fun onClickCard()
     }
 }

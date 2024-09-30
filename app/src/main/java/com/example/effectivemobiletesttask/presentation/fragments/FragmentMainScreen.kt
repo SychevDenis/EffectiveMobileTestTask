@@ -71,7 +71,7 @@ class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter
         val newData = filter.forRvMainScreen(response)
         val dataBlockRec = filter.forBlockRecommendation(response)
         val numberVacancies = filter.setNumberVacancies(response)
-        adapterVacancies.updateData(newData)
+        adapterVacancies.updateItems(newData) //    <--------      исправить если будет время
         adapterBlockRecommendations.updateItems(dataBlockRec)
         buttonMoreVacancies.text = setTextButtonMoreVacancies(numberVacancies)
     }
@@ -90,9 +90,14 @@ class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter
     }
     interface FragmentMainScreenInterface{
         fun clickButtonMoreVacancies()
+        fun onClickCard()
     }
 
     override fun onClickAdapterButtonFavorites(id: String,position: Int) { //вызывается из RVVacanciesAdapter
         viewModelActivity.favoritesTrueFalse(id)
+    }
+
+    override fun onClickCard() {
+        activityInterface?.onClickCard()
     }
 }

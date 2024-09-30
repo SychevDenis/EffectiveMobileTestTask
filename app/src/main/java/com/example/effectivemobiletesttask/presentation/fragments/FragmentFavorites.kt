@@ -68,7 +68,7 @@ class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter 
         val newData = filter.forRvFavorites(response)
         val dataNumber = newData.size
         tvNumberVacancies.text=setTextFavorites(dataNumber)
-        adapterFavorites.updateData(newData)
+        adapterFavorites.updateData(newData) //    <--------      исправить если будет время
     }
 
     private fun setTextFavorites(number: Int): String {//выбор склонения для
@@ -82,11 +82,16 @@ class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter 
 
     interface FragmentFavoritesInterface {
         fun updateDataFromFavorites()
+        fun onClickCard()
     }
 
     override fun onClickAdapterButtonFavorites(id: String,position: Int) { //вызывается из RVVacanciesAdapter
         println(id)
         viewModelActivity.favoritesTrueFalse(id)
+    }
+
+    override fun onClickCard() {
+       activityInterface?.onClickCard()
     }
 }
 

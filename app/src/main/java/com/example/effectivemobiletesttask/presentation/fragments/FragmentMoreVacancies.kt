@@ -97,7 +97,7 @@ class FragmentMoreVacancies : Fragment(), RVVacanciesAdapter.OnClickListenerAdap
     private fun updateDataFragmentMoreVacancies(response: ResponseJson) { //обновить данные
         val newData = filter.forRvMoreVacancies(response)
         val numberVacancies = filter.setNumberVacancies(response)
-        adapterMoreVacancies.updateData(newData)
+        adapterMoreVacancies.updateItems(newData) //    <--------      исправить если будет время
         tvNumberVacancies.text = setTextMoreVacancies(numberVacancies)
     }
 
@@ -112,10 +112,15 @@ class FragmentMoreVacancies : Fragment(), RVVacanciesAdapter.OnClickListenerAdap
 
     interface FragmentMoreVacanciesInterface {
         fun clickButtonBack()
+        fun onClickCard()
         fun updateDataFromMoreVacancies()
     }
 
     override fun onClickAdapterButtonFavorites(id: String, position: Int) { //вызывается из RVVacanciesAdapter
         viewModelActivity.favoritesTrueFalse(id)
+    }
+
+    override fun onClickCard() {
+        activityInterface?.onClickCard()
     }
 }
