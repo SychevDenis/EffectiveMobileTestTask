@@ -17,13 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
-import com.example.effectivemobiletesttask.presentation.FilterDataJson
 import com.example.effectivemobiletesttask.presentation.ViewModelActivity
 
 class FragmentMoreVacancies : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter {
-    private val viewModelActivity: ViewModelActivity by activityViewModels()
+    private val viewModel: ViewModelActivity by activityViewModels()
     private lateinit var editText: EditText
-    private val filter = FilterDataJson()//фильтр данных для rv
     private lateinit var tvNumberVacancies: TextView
     private lateinit var compoundDrawables: Array<Drawable>
     private val adapterMoreVacancies by lazy { RVVacanciesAdapter(listener = this) }
@@ -58,7 +56,7 @@ class FragmentMoreVacancies : Fragment(), RVVacanciesAdapter.OnClickListenerAdap
                     + iconDrawable.intrinsicWidth
                 ) {
                     activityInterface?.clickButtonBack()
-                    return@setOnTouchListener true // Обработано, верните true
+                    return@setOnTouchListener true
                 }
             }
             false
@@ -79,7 +77,7 @@ class FragmentMoreVacancies : Fragment(), RVVacanciesAdapter.OnClickListenerAdap
     }
 
     private fun observeViewModel() {//подписываемся на обновления
-        viewModelActivity.getLdJson().observe(this) {
+        viewModel.ldJson.observe(this) {
             updateDataFragmentMoreVacancies(it)
         }
     }
@@ -95,19 +93,14 @@ class FragmentMoreVacancies : Fragment(), RVVacanciesAdapter.OnClickListenerAdap
     }
 
     private fun updateDataFragmentMoreVacancies(response: ResponseJson) { //обновить данные
-        val newData = filter.forRvMoreVacancies(response)
-        val numberVacancies = filter.setNumberVacancies(response)
-        adapterMoreVacancies.updateItems(newData) //    <--------      исправить если будет время
-        tvNumberVacancies.text = setTextMoreVacancies(numberVacancies)
+        adapterMoreVacancies.updateItems( //    <--------   исправить если будет время (баги)
+            viewModel.updateFragmentMoreVacanciesAdapterRvVacancies(response))
+        tvNumberVacancies.text =
+            setTextMoreVacancies(viewModel.getNumberAllVacancies(response))
     }
 
-    private fun setTextMoreVacancies(number: Int): String {//выбор склонения для
-        // вывода числа вакансий
-        return if (number > 0 && number % 10 == 1 && number != 11)
-            "$number вакансия"
-        else if (number % 10 in listOf(2, 3, 4) && number != 12 && number != 13 && number != 14) {
-            "$number вакансии"
-        } else "$number вакансий"
+    private fun setTextMoreVacancies(number: Int): String {//выбор склонения для текста
+        return viewModel.choosingDeclensionTextView(number)
     }
 
     interface FragmentMoreVacanciesInterface {
@@ -115,8 +108,11 @@ class FragmentMoreVacancies : Fragment(), RVVacanciesAdapter.OnClickListenerAdap
         fun onClickCard()
     }
 
-    override fun onClickAdapterButtonFavorites(id: String, position: Int) { //вызывается из RVVacanciesAdapter
-        viewModelActivity.favoritesTrueFalse(id)
+    override fun onClickAdapterButtonFavorites(
+        id: String,
+        position: Int
+    ) { //вызывается из RVVacanciesAdapter
+        viewModel.favoritesTrueFalse(id)
     }
 
     override fun onClickCard() {

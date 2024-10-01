@@ -63,5 +63,4 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
     }
 
 }
-// переделать метод get value vm во вью модели
-// исправить баг с лайками
+// 1. исправить баги с лайками если будет время

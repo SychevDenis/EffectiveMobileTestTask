@@ -62,7 +62,7 @@ class FragmentMenu : Fragment() {
     }
 
     private fun observeViewModel() {//подписываемся на обновления vm
-        viewModelActivity.getLdJson().observe(this) {
+        viewModelActivity.ldJson.observe(this) {
             updateDataMenu(it)
         }
     }

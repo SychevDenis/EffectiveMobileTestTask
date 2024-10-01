@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
-import com.example.effectivemobiletesttask.presentation.FilterDataJson
+import com.example.effectivemobiletesttask.data.metodsRepositoruImpl.FilterDataJson
 import com.example.effectivemobiletesttask.presentation.ViewModelActivity
 
 class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter  {
-    private val viewModelActivity: ViewModelActivity by activityViewModels()
+    private val viewModel: ViewModelActivity by activityViewModels()
     private val filter = FilterDataJson()//фильтр данных для rv
     private lateinit var rvFavorites: RecyclerView
     private lateinit var tvNumberVacancies: TextView
@@ -38,7 +38,7 @@ class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is FragmentFavoritesInterface) { //реализуем интерфейс с активностью
+        if (context is FragmentFavoritesInterface) { //реализован ли интерфейс с активностью
             activityInterface = context
         } else {
             throw RuntimeException(
@@ -49,7 +49,7 @@ class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter 
     }
 
     private fun observeViewModel() {//подписываемся на обновления
-        viewModelActivity.getLdJson().observe(this) {
+        viewModel.ldJson.observe(this) {
             updateDataFragmentFavorites(it)
         }
     }
@@ -65,19 +65,12 @@ class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter 
     }
 
     private fun updateDataFragmentFavorites(response: ResponseJson) { //обновить данные
-        val newData = filter.forRvFavorites(response)
-        val dataNumber = newData.size
-        tvNumberVacancies.text=setTextFavorites(dataNumber)
-        adapterFavorites.updateData(newData) //    <--------      исправить если будет время
+        tvNumberVacancies.text=setTextFavorites(viewModel.getNumberVacanciesInFavorites(response))
+        adapterFavorites.updateData(viewModel.updateFragmentFavoritesAdapterRvVacancies(response)) //    <--------  исправить если будет время (баги)
     }
 
     private fun setTextFavorites(number: Int): String {//выбор склонения для
-        // вывода числа вакансий
-        return if (number > 0 && number % 10 == 1 && number != 11)
-            "$number вакансия"
-        else if (number % 10 in listOf(2, 3, 4) && number != 12 && number != 13 && number != 14) {
-            "$number вакансии"
-        } else "$number вакансий"
+        return viewModel.choosingDeclensionTextView(number)
     }
 
     interface FragmentFavoritesInterface {
@@ -85,8 +78,7 @@ class FragmentFavorites : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter 
     }
 
     override fun onClickAdapterButtonFavorites(id: String,position: Int) { //вызывается из RVVacanciesAdapter
-        println(id)
-        viewModelActivity.favoritesTrueFalse(id)
+        viewModel.favoritesTrueFalse(id)
     }
 
     override fun onClickCard() {

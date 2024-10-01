@@ -13,12 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
-import com.example.effectivemobiletesttask.presentation.FilterDataJson
 import com.example.effectivemobiletesttask.presentation.ViewModelActivity
 
 class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter {
-    private val viewModelActivity: ViewModelActivity by activityViewModels()
-    private val filter = FilterDataJson()//фильтр данных для rv
+    private val viewModel: ViewModelActivity by activityViewModels()
     private lateinit var rvBlockRecommendations: RecyclerView
     private lateinit var rvVacancies: RecyclerView
     private val adapterBlockRecommendations by lazy { RVBlockRecommendationsAdapter() }
@@ -71,22 +69,22 @@ class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter
     }
 
     private fun updateDataFragmentMainScreen(response: ResponseJson) { //обновить данные
-        val newData = filter.forRvMainScreen(response)
-        val dataBlockRec = filter.forBlockRecommendation(response)
-        val numberVacancies = filter.setNumberVacancies(response)
-        adapterVacancies.updateItems(newData) //    <--------      исправить если будет время
-        adapterBlockRecommendations.updateItems(dataBlockRec)
-        buttonMoreVacancies.text = setTextButtonMoreVacancies(numberVacancies)
+        buttonMoreVacancies.text= setTextButtonMoreVacancies(
+            viewModel.getNumberAllVacancies(response))
+        adapterVacancies.updateItems(viewModel. // <--------  исправить если будет время (баги)
+            updateFragmentMainScreenAdapterRvVacancies(response))
+        adapterBlockRecommendations.updateItems(viewModel.
+            updateFragmentMainScreenAdapterRvBlockRecommendation(response))
     }
 
     private fun observeViewModel() {//подписываемся на обновления
-        viewModelActivity.getLdJson().observe(this) {
+        viewModel.ldJson.observe(this) {
             updateDataFragmentMainScreen(it.copy())
         }
     }
 
-    private fun setTextButtonMoreVacancies(number: Int): String {//выбор склонения для текста
-        return viewModelActivity.choosingDeclensionText(number)
+    private fun setTextButtonMoreVacancies(number: Int): String {//выбор склонения
+        return viewModel.choosingDeclensionButtonView(number)
     }
 
     interface FragmentMainScreenInterface {
@@ -98,7 +96,7 @@ class FragmentMainScreen : Fragment(), RVVacanciesAdapter.OnClickListenerAdapter
         id: String,
         position: Int
     ) { //вызывается из RVVacanciesAdapter
-        viewModelActivity.favoritesTrueFalse(id)
+        viewModel.favoritesTrueFalse(id)
     }
 
     override fun onClickCard() {

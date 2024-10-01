@@ -2,9 +2,14 @@ package com.example.effectivemobiletesttask.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.effectivemobiletesttask.domain.pojo.Offers
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
+import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 import com.example.effectivemobiletesttask.domain.use_cases.ChoosingDeclensionTextUseCase
 import com.example.effectivemobiletesttask.domain.use_cases.RequestJsonUseCase
+import com.example.effectivemobiletesttask.domain.use_cases.UpdateAdapterRvBlockRecommendationUseCase
+import com.example.effectivemobiletesttask.domain.use_cases.UpdateAdapterRvVacanciesUseCase
+import com.example.effectivemobiletesttask.domain.use_cases.GetNumberVacanciesUseCase
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.Dispatchers
@@ -16,22 +21,47 @@ import javax.inject.Inject
 class ViewModelActivity
 @Inject constructor(
     private val requestJsonUseCase: RequestJsonUseCase,
-    private val choosingDeclensionText: ChoosingDeclensionTextUseCase
+    private val choosingDeclensionTextUseCase: ChoosingDeclensionTextUseCase,
+    private val updateAdapterRvVacanciesUseCase: UpdateAdapterRvVacanciesUseCase,
+    private val updateAdapterRvBlockRecommendationUseCase: UpdateAdapterRvBlockRecommendationUseCase,
+    private val getNumberVacancies: GetNumberVacanciesUseCase
 ) : ViewModel() {
-
-    private val ldJson: MutableLiveData<ResponseJson> = MutableLiveData()
-
-    fun setLdJson(json: ResponseJson) {
-        ldJson.value = json
+    val ldJson: MutableLiveData<ResponseJson> = MutableLiveData() //VM Data json
+    fun choosingDeclensionButtonView(number: Int): String { //выбор склонения для кнопки
+        return choosingDeclensionTextUseCase.buttonView(number)
+    }
+    fun choosingDeclensionTextView(number: Int): String { //выбор склонения для текста
+        return choosingDeclensionTextUseCase.textView(number)
+    }
+    fun updateFragmentMainScreenAdapterRvBlockRecommendation(response: ResponseJson):
+            List<Offers> {//обновить Adapter RvBlockRecommendation FragmentMainScreen
+        return updateAdapterRvBlockRecommendationUseCase.fragmentMainScreen(response)
+    }
+    fun updateFragmentMainScreenAdapterRvVacancies(response: ResponseJson):
+            List<Vacancies> {//обновить Adapter RvVacancies  FragmentMainScreen
+        return updateAdapterRvVacanciesUseCase.fragmentMainScreen(response)
+    }
+    fun updateFragmentFavoritesAdapterRvVacancies(response: ResponseJson):
+            List<Vacancies> {//обновить Adapter RvVacancies FragmentFavorites
+        return updateAdapterRvVacanciesUseCase.fragmentFavorites(response)
+    }
+    fun updateFragmentMoreVacanciesAdapterRvVacancies(response: ResponseJson):
+            List<Vacancies> { //обновить Adapter RvVacancies FragmentMoreVacancies
+        return updateAdapterRvVacanciesUseCase.fragmentMoreVacancies(response)
+    }
+    fun getNumberAllVacancies(response: ResponseJson):
+            Int {// Vacancies MainScreen
+        return getNumberVacancies.getAll(response)
+    }
+    fun getNumberVacanciesInFavorites(response: ResponseJson):
+            Int {// Vacancies MainScreen
+        return getNumberVacancies.getFavorites(response)
     }
 
-    fun choosingDeclensionText(number: Int): String { //выбор склонения для текста
-       return choosingDeclensionText.run(number)
-    }
 
     fun favoritesTrueFalse(id: String) {//поиск по id и замена данных в ldJson
         var json = ResponseJson()
-        getLdJson().value?.let { json = it }
+        ldJson.value?.let { json = it }
         json.apply {
             for (i in this.vacancies) {
                 if (i.id == id) {
@@ -39,15 +69,12 @@ class ViewModelActivity
                 }
             }
         }
-        setLdJson(json)
+        ldJson.value = json
     }
 
-    fun getLdJson(): MutableLiveData<ResponseJson> {
-        return ldJson
-    }
 
     fun checkingAvailabilityDataVm(): Boolean {//проверка на наличие данных
-        return getLdJson().value != null
+        return ldJson.value != null
     }
 
     private fun requestJson(url: String): Flow<String> { //запросить json

@@ -91,7 +91,7 @@ class ExtActivityMain(private val activity: AppCompatActivity) {
             lifecycleScope.launch {
                 viewModelActivity.updateDataViewModelJson(url).collect { resultJson ->
                     resultJson?.let {
-                        viewModelActivity.setLdJson(it)
+                        viewModelActivity.ldJson.value=it
                     }
                 }
             }

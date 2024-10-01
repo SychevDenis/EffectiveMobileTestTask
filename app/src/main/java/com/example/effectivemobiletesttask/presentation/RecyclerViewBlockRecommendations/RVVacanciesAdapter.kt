@@ -62,12 +62,10 @@ class RVVacanciesAdapter(
         } ?: run {
             holder.tvPeopleViewing.visibility = View.GONE
         }
-
-        item.isFavorite?.let {
+        item.isFavorite?.let { //лайки
             if (it) holder.ibFavorite.setImageResource(R.drawable.ic_heart_blue)
             else holder.ibFavorite.setImageResource(R.drawable.ic_heart_gray_no_bubble)
         }
-
         holder.tvTitle.text = item.title
         holder.tvCity.text = item.address?.town
         item.company?.let {
@@ -96,11 +94,6 @@ class RVVacanciesAdapter(
         notifyDataSetChanged()
     }
 
-//    @SuppressLint("NotifyDataSetChanged")
-//    fun updateItemsPosition(newItems: List<Vacancies>, position: Int) {
-//        this.items = newItems
-//        notifyItemChanged(position)
-//    }
 
     private fun checkingNumberLooking(number: Int): String { //выбор склонения для просмотров
         return if ((number % 10 == 2 || number % 10 == 3 || number % 10 == 4) &&
