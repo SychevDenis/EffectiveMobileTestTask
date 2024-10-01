@@ -16,9 +16,9 @@ class RVVacanciesAdapter(
     private var listener: OnClickListenerAdapter
 ) :
     RecyclerView.Adapter<RVVacanciesAdapter.ViewHolder>() {
-    private var items: List<Vacancies> = listOf()
+    private var items: MutableList<Vacancies> = mutableListOf()
 
-    class ViewHolder(itemView: View, listener: OnClickListenerAdapter, items: List<Vacancies>) :
+    class ViewHolder(itemView: View, listener: OnClickListenerAdapter, items: MutableList<Vacancies>) :
         RecyclerView.ViewHolder(itemView) {
         val lRvVacancies:LinearLayout = itemView.findViewById(R.id.layout_rv_vacancies)
         val tvPeopleViewing: TextView = itemView.findViewById(R.id.tv_people_viewing_rv_vacancies)
@@ -34,11 +34,6 @@ class RVVacanciesAdapter(
         val button: Button = itemView.findViewById(R.id.button_rv_vacancies)
 
         init {
-            ibFavorite.setOnClickListener {
-                items[adapterPosition].id?.let {
-                    listener.onClickAdapterButtonFavorites(it, adapterPosition)
-                }
-            }
             lRvVacancies.setOnClickListener{
                 listener.onClickCard()
             }
@@ -46,6 +41,10 @@ class RVVacanciesAdapter(
                 //ничего не делать
             }
         }
+    }
+
+    fun getItem():MutableList<Vacancies>  {
+        return items
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,8 +55,16 @@ class RVVacanciesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.ibFavorite.setOnClickListener {
+            //в этом коде возможна есть утечка памяти, нужно исследовать эту часть кода
+            //и переделать, если успею в 7 дневный срок тестового задания        <----------
+            items[position].id?.let {
+                listener.onClickAdapterButtonFavorites(it, position)
+            }
+        }
         val item = items[position]
         item.lookingNumber?.let { //если lookingNumber есть, то
+            holder.tvPeopleViewing.visibility = View.VISIBLE
             holder.tvPeopleViewing.text = checkingNumberLooking(it)
         } ?: run {
             holder.tvPeopleViewing.visibility = View.GONE
@@ -90,7 +97,7 @@ class RVVacanciesAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun updateItems(newItems: List<Vacancies>) { //метод обновления RV. Не рекомендуется
         // использовать, включил его лишь для того, что бы успеть в недельный срок
-        this.items = newItems
+        this.items = newItems.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -129,11 +136,13 @@ class RVVacanciesAdapter(
         }
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         diffResult.dispatchUpdatesTo(this)
-        items=newDataList.toList()
+        items=newDataList.toMutableList()
     }
 
     interface OnClickListenerAdapter {
         fun onClickAdapterButtonFavorites(id: String, position: Int)
         fun onClickCard()
     }
+
+    //передать методы в модуль data если успею
 }

@@ -63,4 +63,4 @@ class MainActivity : AppCompatActivity(), FragmentMainScreen.FragmentMainScreenI
     }
 
 }
-// 1. исправить баги с лайками если будет время
+

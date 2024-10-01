@@ -10,15 +10,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.effectivemobiletesttask.R
 import com.example.effectivemobiletesttask.domain.pojo.ResponseJson
 import com.example.effectivemobiletesttask.domain.pojo.Vacancies
 import com.example.effectivemobiletesttask.presentation.ViewModelActivity
 
 class FragmentMenu : Fragment() {
-    private val viewModelActivity: ViewModelActivity by activityViewModels()
+    private val viewModel: ViewModelActivity by activityViewModels()
 
     private lateinit var ivSearchFragmentMenu: ImageView
     private lateinit var ivFavouritesFragmentMenu: ImageView
@@ -62,13 +60,13 @@ class FragmentMenu : Fragment() {
     }
 
     private fun observeViewModel() {//подписываемся на обновления vm
-        viewModelActivity.ldJson.observe(this) {
+        viewModel.ldJson.observe(this) {
             updateDataMenu(it)
         }
     }
 
     private fun updateDataMenu(json:ResponseJson) {//обновить фрагмент
-        val vacanciesCount= searchFavorites(json.vacancies)
+        val vacanciesCount= viewModel.getNumberVacanciesInFavorites(json)
         if (vacanciesCount > 0) {
             ivBubble.visibility=View.VISIBLE
             tvBubble.apply {
@@ -81,15 +79,6 @@ class FragmentMenu : Fragment() {
         }
     }
 
-    private fun searchFavorites(vacancies: List<com.example.effectivemobiletesttask.domain.pojo.Vacancies>): Int {
-        var countFavoritesTrue = 0
-        for (item in vacancies) {
-            if (item.isFavorite == true) {
-                countFavoritesTrue++
-            }
-        }
-        return countFavoritesTrue
-    }
 
     private fun connectListeners() {//подключаем слушатели
         llSearchFragmentMenu.setOnClickListener {

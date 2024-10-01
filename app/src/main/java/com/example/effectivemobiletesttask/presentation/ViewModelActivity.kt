@@ -54,7 +54,7 @@ class ViewModelActivity
         return getNumberVacancies.getAll(response)
     }
     fun getNumberVacanciesInFavorites(response: ResponseJson):
-            Int {// Vacancies MainScreen
+            Int {// посчитать лайки
         return getNumberVacancies.getFavorites(response)
     }
 
@@ -103,6 +103,5 @@ class ViewModelActivity
             }
         }
     }
-
 
 }
